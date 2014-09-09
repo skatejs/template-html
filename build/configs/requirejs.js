@@ -5,11 +5,11 @@ module.exports = function () {
     dist: {
       options: {
         paths: {
-          'skate/template/html': 'src/main'
+          'template/html': 'src/main'
         },
         baseUrl: '.',
-        name: 'skate/template/html',
-        out: 'dist/skate-template-html.js'
+        name: 'template/html',
+        out: 'dist/template-html.js'
       }
     }
   };
