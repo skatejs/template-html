@@ -9,6 +9,8 @@
     "glob": "latest",
     "grunt": "latest",
     "grunt-available-tasks": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-jshint": "latest",
     "grunt-contrib-requirejs": "latest",
     "grunt-jscs": "latest",
     "grunt-karma": "latest",
