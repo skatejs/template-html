@@ -41,8 +41,8 @@
    * @returns {Mixed}
    */
   function getData (element, name) {
-    if (element.__SKATE_DATA) {
-      return element.__SKATE_DATA[name];
+    if (element.__SKATE_TEMPLATE_HTML_DATA) {
+      return element.__SKATE_TEMPLATE_HTML_DATA[name];
     }
   }
 
@@ -56,11 +56,11 @@
    * @returns {undefined}
    */
   function setData (element, name, value) {
-    if (!element.__SKATE_DATA) {
-      element.__SKATE_DATA = {};
+    if (!element.__SKATE_TEMPLATE_HTML_DATA) {
+      element.__SKATE_TEMPLATE_HTML_DATA = {};
     }
 
-    element.__SKATE_DATA[name] = value;
+    element.__SKATE_TEMPLATE_HTML_DATA[name] = value;
 
     return element;
   }
@@ -613,9 +613,8 @@
    *
    * Usage:
    *
-   *     skate('something', {
-   *       template: skate.template.html('<my-html-template data-skate-content=".select-some-children"></my-html-template>')
-   *     });
+   *     var tmp = skateTemplateHtml('<my-html-template data-skate-content=".select-some-children"></my-html-template>');
+   *     tmp(elementToTemplate);
    *
    * @param {String} templateString The HTML template string to use.
    *
@@ -629,7 +628,7 @@
       cacheContentData(target);
 
       if (initialHtml) {
-        skate.template.html.wrap(target).innerHTML = initialHtml;
+        skateTemplateHtml.wrap(target).innerHTML = initialHtml;
       }
     };
   }
