@@ -3,7 +3,7 @@ Skate HTML Templates
 
 Skate HTML templates is a simple templating engine based on how the Shadow DOM spec uses the `<content>` element and `select` attribute.
 
-It works by definging a template:
+It works by defining a template:
 
 ```js
 var myTemplate = skateTemplateHtml('<article><h3><content select=".heading"></content></h3><section><content><p>There is no content to display.</p></content></section></article>');
