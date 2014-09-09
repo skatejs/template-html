@@ -3,13 +3,13 @@ Skate HTML Templates
 
 Skate HTML templates is a simple templating engine based on how the Shadow DOM spec uses the `<content>` element and `select` attribute.
 
-For example, we may define the following template:
+It works by definging a template:
 
 ```js
 var myTemplate = skateTemplateHtml('<article><h3><content select=".heading"></content></h3><section><content><p>There is no content to display.</p></content></section></article>');
 ```
 
-We can now use this template on an element:
+The compiled template is just a function that you call on an element. If you called the template above on the body:
 
 ```js
 myTemplate(document.body);
@@ -18,30 +18,36 @@ myTemplate(document.body);
 The result would be:
 
 ```html
-<article>
-  <h3></h3>
-  <section>There is no content to display.</section>
-</article>
+<body>
+  <article>
+    <h3></h3>
+    <section>There is no content to display.</section>
+  </article>
+</body>
 ```
 
 If this already existed in the `body`:
 
 ```html
-<span class="heading">My Heading</span>
-<p>First paragraph.</p>
-<p>Second paragraph.</p>
+<body>
+  <span class="heading">My Heading</span>
+  <p>First paragraph.</p>
+  <p>Second paragraph.</p>
+</body>
 ```
 
 Then it would have been transformed into:
 
 ```html
-<article>
-  <h3><span class="heading">My Heading</span></h3>
-  <section>
-    <p>First paragraph.</p>
-    <p>Second paragraph.</p>
-  </section>
-</article>
+<body>
+  <article>
+    <h3><span class="heading">My Heading</span></h3>
+    <section>
+      <p>First paragraph.</p>
+      <p>Second paragraph.</p>
+    </section>
+  </article>
+</body>
 ```
 
 If you want the templating engine to dynamically project elements into `<content>` areas, you must first wrap the element:
@@ -62,14 +68,16 @@ $body.appendChild(thirdParagraph);
 Doing that would result in:
 
 ```html
-<article>
-  <h3><span class="heading">My Heading</span></h3>
-  <section>
-    <p>First paragraph.</p>
-    <p>Second paragraph.</p>
-    <p>Third paragraph.</p>
-  </section>
-</article>
+<body>
+  <article>
+    <h3><span class="heading">My Heading</span></h3>
+    <section>
+      <p>First paragraph.</p>
+      <p>Second paragraph.</p>
+      <p>Third paragraph.</p>
+    </section>
+  </article>
+</body>
 ```
 
 Notice how the when you appended the content, it didn't actually put it as a first child to the `body`, it actually moved it into the correct content area in the correct spot.
@@ -91,14 +99,16 @@ $body.removeChild($body.childNodes[0]);
 Then the default content that we specified in the template definition would take their place:
 
 ```html
-<article>
-  <h3>
-    <span class="heading">My Heading</span>
-  </h3>
-  <section>
-    <p>There is no content to display.</p>
-  </section>
-</article>
+<body>
+  <article>
+    <h3>
+      <span class="heading">My Heading</span>
+    </h3>
+    <section>
+      <p>There is no content to display.</p>
+    </section>
+  </article>
+</body>
 ```
 
 If you decide you want to put some content back in, then it will remove the default content in favour of the content you specify.
