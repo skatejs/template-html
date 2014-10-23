@@ -1,5 +1,9 @@
 {
     "disallowEmptyBlocks": true,
+    "disallowKeywordsOnNewLine": [
+        "catch",
+        "else"
+    ],
     "disallowLeftStickedOperators": [
         "?",
         "+",
@@ -19,6 +23,7 @@
     ],
     "disallowMixedSpacesAndTabs": true,
     "disallowMultipleLineStrings": true,
+    "disallowMultipleVarDecl": true,
     "disallowQuotedKeysInObjects": true,
     "disallowRightStickedOperators": [
         "?",
@@ -47,7 +52,7 @@
         "!"
     ],
     "disallowTrailingWhitespace": true,
-    "maximumLineLength": 120,
+    "maximumLineLength": false,
     "requireDotNotation": true,
     "requireSpaceBeforeBinaryOperators": [
         "+",
@@ -81,15 +86,10 @@
         "catch"
     ],
     "requireCamelCaseOrUpperCaseIdentifiers": true,
-    "requireKeywordsOnNewLine": [
-        "catch",
-        "else"
-    ],
     "requireLeftStickedOperators": [
         ","
     ],
     "requireLineFeedAtFileEnd": true,
-    "requireMultipleVarDecl": true,
     "requireOperatorBeforeLineBreak": [
         "?",
         "+",
@@ -135,7 +135,7 @@
         "beforeOpeningRoundBrace": true,
         "beforeOpeningCurlyBrace": true
     },
-    "validateIndentation": 4,
+    "validateIndentation": 2,
     "validateLineBreaks": "LF",
     "validateQuoteMarks": {
         "mark": "'",

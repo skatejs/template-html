@@ -501,7 +501,7 @@
    * @return {Object}
    */
   function makeInstanceOf (node) {
-    var Ctor = function(){};
+    var Ctor = function () {};
     Ctor.prototype = document.createElement(node.tagName);
     return new Ctor();
   }
@@ -616,15 +616,15 @@
    *     var tmp = skateTemplateHtml('<my-html-template data-skate-content=".select-some-children"></my-html-template>');
    *     tmp(elementToTemplate);
    *
-   * @param {String} templateString The HTML template string to use.
-   *
    * @returns {Function} The function for rendering the template.
    */
-  function skateTemplateHtml (templateString) {
+  function skateTemplateHtml () {
+    var template = [].slice.call(arguments).join('');
+
     return function (target) {
       var initialHtml = target.innerHTML;
 
-      target.innerHTML = templateString;
+      target.innerHTML = template;
       cacheContentData(target);
 
       if (initialHtml) {
