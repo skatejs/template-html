@@ -493,20 +493,6 @@
   }
 
   /**
-   * Makes a constructor for the specified element that passes instanceof
-   * checks which is configurable.
-   *
-   * @param {Node} node The node to create a fake constructor for.
-   *
-   * @return {Object}
-   */
-  function makeInstanceOf (node) {
-    var Ctor = function () {};
-    Ctor.prototype = document.createElement(node.tagName);
-    return new Ctor();
-  }
-
-  /**
    * Returns a property definition that just proxies to the original element
    * property.
    *
@@ -532,24 +518,17 @@
    * @returns {Node}
    */
   function wrapNodeWith (node, wrapper) {
-    // Copies all base properties and methods.
-    // Doing this also makes instanceof calls work.
-    var wrapped = makeInstanceOf(node);
+    var wrapped = {};
 
-    // Copy or proxy all (enumerable and non-enumerable) properties.
-    Object.getOwnPropertyNames(node).forEach(function (name) {
-      Object.defineProperty(
-        wrapped,
-        name,
-        name in wrapper ? wrapper[name] : createProxyProperty(node, name)
-      );
-    });
+    for (var name in node) {
+      var inWrapper = name in wrapper;
 
-    // Ensure all wrapper methods are bound and all inherited methods affect
-    // the main element.
-    for (var name in wrapped) {
-      if (wrapped[name] && wrapped[name].bind) {
-        wrapped[name] = name in wrapper ? wrapper[name] : node[name].bind(node);
+      if (typeof node[name] === 'function') {
+        wrapped[name] = inWrapper ? wrapper[name] : node[name].bind(node);
+      } else if (inWrapper) {
+        Object.defineProperty(wrapped, name, wrapper[name]);
+      } else {
+        Object.defineProperty(wrapped, name, createProxyProperty(node, name));
       }
     }
 
