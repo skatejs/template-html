@@ -4,7 +4,7 @@ module.exports = function (grunt) {
   if (browsers) {
     browsers = browsers.split(',');
   } else {
-    browsers = ['PhantomJS'];
+    browsers = ['Firefox'];
   }
 
   return {
