@@ -4,6 +4,7 @@ module.exports = function (grunt) {
   grunt.registerTask('dist', 'Creates the dist files.', [
     'clean:dist',
     'karma:cli',
-    'requirejs:dist'
+    'concat:dist',
+    'uglify:dist'
   ]);
 };

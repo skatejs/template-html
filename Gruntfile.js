@@ -8,8 +8,9 @@ module.exports = function (grunt) {
   grunt.loadTasks('build/tasks');
   grunt.loadNpmTasks('grunt-available-tasks');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-requirejs');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-jscs');
   grunt.loadNpmTasks('grunt-karma');
 };
