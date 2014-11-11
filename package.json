@@ -23,7 +23,6 @@
     "karma-requirejs": "latest"
   },
   "scripts": {
-    "postinstall": "sh ./build/bin/npm-postinstall.sh",
     "test": "grunt karma:cli"
   }
 }
