@@ -1,21 +1,4 @@
-(function (factory) {
-  'use strict';
-
-  // Global.
-  window.skateTemplateHtml = factory();
-
-  // AMD.
-  if (typeof define === 'function') {
-    define(function () {
-      return factory();
-    });
-  }
-
-  // CommonJS.
-  if (typeof module === 'object') {
-    module.exports = factory();
-  }
-}(function () {
+(function () {
   'use strict';
 
 
@@ -92,8 +75,19 @@
 
     div.innerHTML = domString;
 
-    while (div.childNodes.length) {
-      frag.appendChild(div.childNodes[0]);
+    return createFragmentFromNodeList(div.childNodes);
+  }
+
+  /**
+   * Creates a document fragment from an element's childNodes.
+   *
+   * @param {NodeList} nodeList
+   */
+  function createFragmentFromNodeList (nodeList) {
+    var frag = document.createDocumentFragment();
+
+    while (nodeList && nodeList.length) {
+      frag.appendChild(nodeList[0]);
     }
 
     return frag;
@@ -315,13 +309,9 @@
         if (node instanceof DocumentFragment) {
           var fragChildNodes = node.childNodes;
 
-          if (fragChildNodes) {
-            var fragChildNodesLength = fragChildNodes.length;
-
-            for (var a = 0; a < fragChildNodesLength; a++) {
-              this.appendChild(fragChildNodes[a]);
-            }
-          }
+          [].slice.call(fragChildNodes).forEach(function (node) {
+            this.appendChild(node);
+          }.bind(this));
 
           return this;
         }
@@ -601,13 +591,13 @@
     var template = [].slice.call(arguments).join('');
 
     return function (target) {
-      var initialHtml = target.innerHTML;
+      var frag = createFragmentFromNodeList(target.childNodes);
 
       target.innerHTML = template;
       cacheContentData(target);
 
-      if (initialHtml) {
-        skateTemplateHtml.wrap(target).innerHTML = initialHtml;
+      if (frag.childNodes.length) {
+        skateTemplateHtml.wrap(target).appendChild(frag);
       }
     };
   }
@@ -626,5 +616,23 @@
       node;
   };
 
-  return skateTemplateHtml;
-}));
+
+
+  // Exporting
+  // ---------
+
+  // Global.
+  window.skateTemplateHtml = skateTemplateHtml;
+
+  // AMD.
+  if (typeof define === 'function') {
+    define(function () {
+      return skateTemplateHtml;
+    });
+  }
+
+  // CommonJS.
+  if (typeof module === 'object') {
+    module.exports = skateTemplateHtml;
+  }
+})();
