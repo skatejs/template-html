@@ -208,5 +208,16 @@ define(['../../src/main.js'], function (template) {
         });
       });
     });
+
+    it('should keep references to the original light DOM', function () {
+      var div = document.createElement('div');
+      var input = document.createElement('input');
+      var temp = skateTemplateHtml('<content></content>');
+
+      div.appendChild(input);
+      temp(div);
+
+      div.children[0].should.equal(input);
+    });
   });
 });
