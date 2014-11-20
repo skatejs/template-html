@@ -305,142 +305,152 @@
         }
       },
 
-      appendChild: function (node) {
-        if (node instanceof DocumentFragment) {
-          var fragChildNodes = node.childNodes;
+      appendChild: {
+        value: function (node) {
+          if (node instanceof DocumentFragment) {
+            var fragChildNodes = node.childNodes;
 
-          [].slice.call(fragChildNodes).forEach(function (node) {
-            this.appendChild(node);
-          }.bind(this));
+            [].slice.call(fragChildNodes).forEach(function (node) {
+              this.appendChild(node);
+            }.bind(this));
 
-          return this;
-        }
-
-        for (var b = 0; b < contentNodesLen; b++) {
-          var contentNode = contentNodes[b];
-          var contentSelector = contentNode.selector;
-
-          if (!contentSelector || matchesSelector.call(node, contentSelector)) {
-            removeDefaultContent(contentNode);
-            contentNode.endNode.parentNode.insertBefore(node, contentNode.endNode);
-            break;
+            return this;
           }
-        }
 
-        return this;
-      },
+          for (var b = 0; b < contentNodesLen; b++) {
+            var contentNode = contentNodes[b];
+            var contentSelector = contentNode.selector;
 
-      insertAdjacentHTML: function (where, html) {
-        if (where === 'afterbegin') {
-          this.insertBefore(createFragmentFromString(html), this.childNodes[0]);
-        } else if (where === 'beforeend') {
-          this.appendChild(createFragmentFromString(html));
-        } else {
-          element.insertAdjacentHTML(where, html);
-        }
-
-        return this;
-      },
-
-      insertBefore: function (node, referenceNode) {
-        // If no reference node is supplied, we append. This also means that we
-        // don't need to add / remove any default content because either there
-        // aren't any nodes or appendChild will handle it.
-        if (!referenceNode) {
-          return this.appendChild(node);
-        }
-
-        // Handle document fragments.
-        if (node instanceof DocumentFragment) {
-          var fragChildNodes = node.childNodes;
-
-          if (fragChildNodes) {
-            var fragChildNodesLength = fragChildNodes.length;
-
-            for (var a = 0; a < fragChildNodesLength; a++) {
-              this.insertBefore(fragChildNodes[a], referenceNode);
+            if (!contentSelector || matchesSelector.call(node, contentSelector)) {
+              removeDefaultContent(contentNode);
+              contentNode.endNode.parentNode.insertBefore(node, contentNode.endNode);
+              break;
             }
           }
 
           return this;
         }
+      },
 
-        var hasFoundReferenceNode = false;
+      insertAdjacentHTML: {
+        value: function (where, html) {
+          if (where === 'afterbegin') {
+            this.insertBefore(createFragmentFromString(html), this.childNodes[0]);
+          } else if (where === 'beforeend') {
+            this.appendChild(createFragmentFromString(html));
+          } else {
+            element.insertAdjacentHTML(where, html);
+          }
 
-        // There's no reason to handle default content add / remove because:
-        // 1. If no reference node is supplied, appendChild handles it.
-        // 2. If a reference node is supplied, there already is content.
-        // 3. If a reference node is invalid, an exception is thrown, but also
-        //    it's state would not change even if it wasn't.
-        mainLoop:
-        for (var b = 0; b < contentNodesLen; b++) {
-          var contentNode = contentNodes[b];
-          var betweenNodes = getNodesBetween(contentNode.startNode, contentNode.endNode);
-          var betweenNodesLen = betweenNodes.length;
+          return this;
+        }
+      },
 
-          for (var c = 0; c < betweenNodesLen; c++) {
-            var betweenNode = betweenNodes[c];
+      insertBefore: {
+        value: function (node, referenceNode) {
+          // If no reference node is supplied, we append. This also means that we
+          // don't need to add / remove any default content because either there
+          // aren't any nodes or appendChild will handle it.
+          if (!referenceNode) {
+            return this.appendChild(node);
+          }
 
-            if (betweenNode === referenceNode) {
-              hasFoundReferenceNode = true;
+          // Handle document fragments.
+          if (node instanceof DocumentFragment) {
+            var fragChildNodes = node.childNodes;
+
+            if (fragChildNodes) {
+              var fragChildNodesLength = fragChildNodes.length;
+
+              for (var a = 0; a < fragChildNodesLength; a++) {
+                this.insertBefore(fragChildNodes[a], referenceNode);
+              }
             }
 
-            if (hasFoundReferenceNode) {
-              var selector = contentNode.selector;
+            return this;
+          }
 
-              if (!selector || matchesSelector.call(node, selector)) {
-                betweenNode.parentNode.insertBefore(node, betweenNode);
-                break mainLoop;
+          var hasFoundReferenceNode = false;
+
+          // There's no reason to handle default content add / remove because:
+          // 1. If no reference node is supplied, appendChild handles it.
+          // 2. If a reference node is supplied, there already is content.
+          // 3. If a reference node is invalid, an exception is thrown, but also
+          //    it's state would not change even if it wasn't.
+          mainLoop:
+          for (var b = 0; b < contentNodesLen; b++) {
+            var contentNode = contentNodes[b];
+            var betweenNodes = getNodesBetween(contentNode.startNode, contentNode.endNode);
+            var betweenNodesLen = betweenNodes.length;
+
+            for (var c = 0; c < betweenNodesLen; c++) {
+              var betweenNode = betweenNodes[c];
+
+              if (betweenNode === referenceNode) {
+                hasFoundReferenceNode = true;
+              }
+
+              if (hasFoundReferenceNode) {
+                var selector = contentNode.selector;
+
+                if (!selector || matchesSelector.call(node, selector)) {
+                  betweenNode.parentNode.insertBefore(node, betweenNode);
+                  break mainLoop;
+                }
               }
             }
           }
-        }
 
-        // If no reference node was found as a child node of the element we must
-        // throw an error. This works for both no child nodes, or if the
-        // reference wasn't found to be a child node.
-        if (!hasFoundReferenceNode) {
-          throw new Error('DOMException 8: The node before which the new node is to be inserted is not a child of this node.');
-        }
+          // If no reference node was found as a child node of the element we must
+          // throw an error. This works for both no child nodes, or if the
+          // reference wasn't found to be a child node.
+          if (!hasFoundReferenceNode) {
+            throw new Error('DOMException 8: The node before which the new node is to be inserted is not a child of this node.');
+          }
 
-        return node;
+          return node;
+        }
       },
 
-      removeChild: function (childNode) {
-        var removed = false;
+      removeChild: {
+        value: function (childNode) {
+          var removed = false;
 
-        for (var a = 0; a < contentNodesLen; a++) {
-          var contentNode = contentNodes[a];
+          for (var a = 0; a < contentNodesLen; a++) {
+            var contentNode = contentNodes[a];
 
-          if (contentNode.container === childNode.parentNode) {
-            contentNode.container.removeChild(childNode);
-            removed = true;
-            break;
+            if (contentNode.container === childNode.parentNode) {
+              contentNode.container.removeChild(childNode);
+              removed = true;
+              break;
+            }
+
+            if (contentNode.startNode.nextSibling === contentNode.endNode) {
+              addDefaultContent(contentNode);
+            }
           }
 
-          if (contentNode.startNode.nextSibling === contentNode.endNode) {
-            addDefaultContent(contentNode);
+          if (!removed) {
+            throw new Error('DOMException 8: The node in which you are trying to remove is not a child of this node.');
           }
-        }
 
-        if (!removed) {
-          throw new Error('DOMException 8: The node in which you are trying to remove is not a child of this node.');
+          return childNode;
         }
-
-        return childNode;
       },
 
-      replaceChild: function (newChild, oldChild) {
-        for (var a = 0; a < contentNodesLen; a++) {
-          var contentNode = contentNodes[a];
+      replaceChild: {
+        value: function (newChild, oldChild) {
+          for (var a = 0; a < contentNodesLen; a++) {
+            var contentNode = contentNodes[a];
 
-          if (contentNode.container === oldChild.parentNode) {
-            contentNode.container.replaceChild(newChild, oldChild);
-            break;
+            if (contentNode.container === oldChild.parentNode) {
+              contentNode.container.replaceChild(newChild, oldChild);
+              break;
+            }
           }
-        }
 
-        return this;
+          return this;
+        }
       }
     };
   }
@@ -492,8 +502,15 @@
   function createProxyProperty (node, name) {
     return {
       get: function () {
-        return node[name];
+        var value = node[name];
+
+        if (typeof value === 'function') {
+          return value.bind(node);
+        }
+
+        return value;
       },
+
       set: function (value) {
         node[name] = value;
       }
@@ -513,9 +530,7 @@
     for (var name in node) {
       var inWrapper = name in wrapper;
 
-      if (typeof node[name] === 'function') {
-        wrapped[name] = inWrapper ? wrapper[name] : node[name].bind(node);
-      } else if (inWrapper) {
+      if (inWrapper) {
         Object.defineProperty(wrapped, name, wrapper[name]);
       } else {
         Object.defineProperty(wrapped, name, createProxyProperty(node, name));
