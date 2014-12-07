@@ -321,7 +321,7 @@
             var contentNode = contentNodes[b];
             var contentSelector = contentNode.selector;
 
-            if (!contentSelector || matchesSelector.call(node, contentSelector)) {
+            if (!contentSelector || node instanceof window.HTMLElement && matchesSelector.call(node, contentSelector)) {
               removeDefaultContent(contentNode);
               contentNode.endNode.parentNode.insertBefore(node, contentNode.endNode);
               break;

@@ -43,6 +43,12 @@ define(['../../src/main.js'], function (template) {
         .innerHTML.should.equal('<span><!----><!----></span>');
     });
 
+    it('should ignore non-element nodes', function () {
+      el.innerHTML = '<span>one</span>\n<span>two</span>non-element-node';
+        tmp('<span><content select="span"></content></span>')
+          .innerHTML.should.equal('<span><!----><span>one</span><span>two</span><!----></span>');
+    });
+
     describe('default content', function () {
       beforeEach(function () {
         el.innerHTML = 'initial content';
