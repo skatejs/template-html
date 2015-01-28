@@ -1,43 +1,22 @@
 (function () {
   'use strict';
 
-
-
   var DocumentFragment = window.DocumentFragment;
   var elProto = window.HTMLElement.prototype;
   var matchesSelector = (
-      elProto.matches ||
-      elProto.msMatchesSelector ||
-      elProto.webkitMatchesSelector ||
-      elProto.mozMatchesSelector ||
-      elProto.oMatchesSelector
-    );
+    elProto.matches ||
+    elProto.msMatchesSelector ||
+    elProto.webkitMatchesSelector ||
+    elProto.mozMatchesSelector ||
+    elProto.oMatchesSelector
+  );
 
-
-
-  /**
-   * Adds data to the element.
-   *
-   * @param {Element} element The element to get data from.
-   * @param {String} name The name of the data to return.
-   *
-   * @returns {Mixed}
-   */
   function getData (element, name) {
     if (element.__SKATE_TEMPLATE_HTML_DATA) {
       return element.__SKATE_TEMPLATE_HTML_DATA[name];
     }
   }
 
-  /**
-   * Adds data to the element.
-   *
-   * @param {Element} element The element to apply data to.
-   * @param {String} name The name of the data.
-   * @param {Mixed} value The data value.
-   *
-   * @returns {undefined}
-   */
   function setData (element, name, value) {
     if (!element.__SKATE_TEMPLATE_HTML_DATA) {
       element.__SKATE_TEMPLATE_HTML_DATA = {};
@@ -48,28 +27,18 @@
     return element;
   }
 
-  /**
-   * Creates a document fragment from the specified DOM string. It ensures that
-   * if special nodes are passed in that they are added to a valid parent node
-   * before importing to the document fragment.
-   *
-   * @param {String} domString The HTMl to create a fragment from.
-   *
-   * @returns {DocumentFragment}
-   */
   function createFragmentFromString (domString) {
     var specialMap = {
-        caption: 'table',
-        dd: 'dl',
-        dt: 'dl',
-        li: 'ul',
-        tbody: 'table',
-        td: 'tr',
-        thead: 'table',
-        tr: 'tbody'
-      };
+      caption: 'table',
+      dd: 'dl',
+      dt: 'dl',
+      li: 'ul',
+      tbody: 'table',
+      td: 'tr',
+      thead: 'table',
+      tr: 'tbody'
+    };
 
-    var frag = document.createDocumentFragment();
     var tag = domString.match(/\s*<([^\s>]+)/);
     var div = document.createElement(tag && specialMap[tag[1]] || 'div');
 
@@ -78,11 +47,6 @@
     return createFragmentFromNodeList(div.childNodes);
   }
 
-  /**
-   * Creates a document fragment from an element's childNodes.
-   *
-   * @param {NodeList} nodeList
-   */
   function createFragmentFromNodeList (nodeList) {
     var frag = document.createDocumentFragment();
 
@@ -93,14 +57,6 @@
     return frag;
   }
 
-  /**
-   * Returns the nodes between the start node and the end node.
-   *
-   * @param {Node} startNode The start node.
-   * @param {Node} endNode The end node.
-   *
-   * @returns {Array}
-   */
   function getNodesBetween (startNode, endNode) {
     var nodes = [];
     var nextNode = startNode.nextSibling;
@@ -113,15 +69,6 @@
     return nodes;
   }
 
-  /**
-   * Finds direct children in the `sourceNode` that match the given selector.
-   *
-   * @param {Element} sourceNode The node to find the elements in.
-   * @param {String} selector The selector to use. If not specified, all
-   *                          `childNodes` are returned.
-   *
-   * @returns {NodeList}
-   */
   function findChildrenMatchingSelector (sourceNode, selector) {
     if (selector) {
       var found = sourceNode.querySelectorAll(selector);
@@ -142,14 +89,6 @@
     return [].slice.call(sourceNode.childNodes) || [];
   }
 
-  /**
-   * Returns an object with methods and properties that can be used to wrap an
-   * element so that it behaves similar to a shadow root.
-   *
-   * @param {HTMLElement} element The original element to wrap.
-   *
-   * @returns {Object}
-   */
   function htmlTemplateParentWrapper (element) {
     var contentNodes = getData(element, 'content');
     var contentNodesLen = contentNodes.length;
@@ -455,13 +394,6 @@
     };
   }
 
-  /**
-   * Adds the default content if no content exists.
-   *
-   * @param {Object} content The content data.
-   *
-   * @returns {undefined}
-   */
   function addDefaultContent (content) {
     var nodes = content.defaultNodes;
     var nodesLen = nodes.length;
@@ -473,13 +405,6 @@
     content.isDefault = true;
   }
 
-  /**
-   * Removes the default content if it exists.
-   *
-   * @param {Object} content The content data.
-   *
-   * @returns {undefined}
-   */
   function removeDefaultContent (content) {
     var nodes = content.defaultNodes;
     var nodesLen = nodes.length;
@@ -492,13 +417,6 @@
     content.isDefault = false;
   }
 
-  /**
-   * Returns a property definition that just proxies to the original element
-   * property.
-   *
-   * @param {Node} node The node to proxy to.
-   * @param {String} name The name of the property.
-   */
   function createProxyProperty (node, name) {
     return {
       get: function () {
@@ -517,13 +435,6 @@
     };
   }
 
-  /**
-   * Wraps the specified element with the given wrapper.
-   *
-   * @param {Object} wrapper The methods and properties to wrap.
-   *
-   * @returns {Node}
-   */
   function wrapNodeWith (node, wrapper) {
     var wrapped = {};
 
@@ -540,13 +451,6 @@
     return wrapped;
   }
 
-  /**
-   * Caches information about the content nodes.
-   *
-   * @param {Node} node The node to cache content information about.
-   *
-   * @returns {undefined}
-   */
   function cacheContentData (node) {
     var contentNodes = node.getElementsByTagName('content');
     var contentNodesLen = contentNodes && contentNodes.length;
@@ -557,8 +461,9 @@
       while (contentNodes.length) {
         var contentNode = contentNodes[0];
         var parentNode = contentNode.parentNode;
-        var startNode = document.createComment('');
-        var endNode = document.createComment('');
+        var selector = contentNode.getAttribute('select');
+        var startNode = document.createComment(' content ');
+        var endNode = document.createComment(' /content ');
 
         contentData.push({
           container: parentNode,
@@ -566,12 +471,19 @@
           defaultNodes: [].slice.call(contentNode.childNodes),
           endNode: endNode,
           isDefault: true,
-          selector: contentNode.getAttribute('select'),
+          selector: selector,
           startNode: startNode
         });
 
         parentNode.replaceChild(endNode, contentNode);
         parentNode.insertBefore(startNode, endNode);
+
+        // Cache data in the comment that can be read if no content information
+        // is cached. This allows seamless server-side rendering.
+        startNode.textContent += JSON.stringify({
+          defaultContent: contentNode.innerHTML,
+          selector: selector
+        }) + ' ';
       }
 
       setData(node, 'content', contentData);
@@ -580,28 +492,85 @@
 
 
 
+  // Content Parser
+  // --------------
+
+  function parseCommentNode (node) {
+    var data;
+    var matches = node.textContent.match(/^\s*(\/?)content\s*([\s\S]*?)\s*$/i);
+
+    if (matches) {
+      if (matches[2]) {
+        try {
+          data = JSON.parse(matches[2]);
+        } catch (e) {
+          throw new Error('Unable to parse content comment data: "' + e + '" in "<!--' + node.textContent + '-->".');
+        }
+      }
+
+      return {
+        data: data || {
+          defaultContent: undefined,
+          isDefault: undefined,
+          selector: undefined
+        },
+        type: matches[1] ? 'close' : 'open'
+      };
+    }
+  }
+
+  function parseNodeForContent (node) {
+    var a;
+    var childNodes = node.childNodes;
+    var childNodesLen = childNodes.length;
+    var contentDatas = [];
+    var lastContentNode;
+
+    for (a = 0; a < childNodesLen; a++) {
+      var childNode = childNodes[a];
+
+      if (childNode.nodeType === 8) {
+        var contentInfo = parseCommentNode(childNode);
+
+        if (contentInfo) {
+          if (contentInfo.type === 'open') {
+            if (lastContentNode) {
+              throw new Error('Cannot have an opening content placeholder after another content placeholder at the same level in the DOM tree: "' + childNode.textContent + '" in "' + childNode.parentNode.innerHTML + '".');
+            }
+
+            lastContentNode = {
+              container: childNode.parentNode,
+              contentNode: childNode,
+              defaultNodes: contentInfo.data.defaultContent && createFragmentFromString(contentInfo.data.defaultContent).childNodes || [],
+              isDefault: contentInfo.data.isDefault,
+              selector: contentInfo.data.selector,
+              startNode: childNode
+            };
+          } else if (contentInfo.type === 'close') {
+            if (!lastContentNode) {
+              throw new Error('Unmatched closing content placeholder: "' + childNode.textContent + '" in "' + childNode.parentNode.innerHTML + '".');
+            }
+
+            lastContentNode.endNode = childNode;
+            contentDatas.push(lastContentNode);
+            lastContentNode = undefined;
+          }
+        }
+      }
+
+      parseNodeForContent(childNode).forEach(function (contentData) {
+        contentDatas.push(contentData);
+      });
+    }
+
+    return contentDatas;
+  }
+
+
+
   // Public API
   // ----------
 
-  /**
-   * Default template renderer. Similar to ShadowDOM style templating where
-   * content is projected from the light DOM.
-   *
-   * Differences:
-   *
-   * - Uses a `data-skate-content` attribute instead of a `select` attribute.
-   * - Attribute is applied to existing elements rather than the <content>
-   *   element to prevent styling issues.
-   * - Does not dynamically project modifications to the root custom element.
-   *   You must affect each projection node.
-   *
-   * Usage:
-   *
-   *     var tmp = skateTemplateHtml('<my-html-template data-skate-content=".select-some-children"></my-html-template>');
-   *     tmp(elementToTemplate);
-   *
-   * @returns {Function} The function for rendering the template.
-   */
   function skateTemplateHtml () {
     var template = [].slice.call(arguments).join('');
 
@@ -617,18 +586,12 @@
     };
   }
 
-  /**
-   * Wraps the element in an object that has methods which can be used to
-   * manipulate the content similar to if it were delcared as the shadow root.
-   *
-   * @param {Node} node The node to wrap.
-   *
-   * @returns {Object}
-   */
   skateTemplateHtml.wrap = function (node) {
-    return getData(node, 'content') ?
-      wrapNodeWith(node, htmlTemplateParentWrapper(node)) :
-      node;
+    if (!getData(node, 'content')) {
+      setData(node, 'content', parseNodeForContent(node));
+    }
+
+    return wrapNodeWith(node, htmlTemplateParentWrapper(node));
   };
 
 

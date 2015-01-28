@@ -27,26 +27,28 @@ define(['../../src/main.js'], function (template) {
 
     it('should select all content from the inital html', function () {
       el.innerHTML = '<span>1</span><span>2</span>';
-      tmp('<span><content></content></span>')
-        .innerHTML.should.equal('<span><!----><span>1</span><span>2</span><!----></span>');
+      tmp('<span><content></content></span>');
+      expect(el.children[0].children[0].textContent).to.equal('1');
+      expect(el.children[0].children[1].textContent).to.equal('2');
     });
 
     it('should select specific content from the inital html', function () {
       el.innerHTML = '<span>one</span><span>two</span>';
-      tmp('<span><content select="span"></content></span>')
-        .innerHTML.should.equal('<span><!----><span>one</span><span>two</span><!----></span>');
+      tmp('<span><content select="span"></content></span>');
+      expect(el.children[0].children[0].textContent).to.equal('one');
+      expect(el.children[0].children[1].textContent).to.equal('two');
     });
 
     it('should only allow first children of the main element to be selected by the content element', function () {
       el.innerHTML = '<some><descendant></descendant></some>';
-      tmp('<span><content select="some descendant"></content></span>')
-        .innerHTML.should.equal('<span><!----><!----></span>');
+      tmp('<span><content select="some descendant"></content></span>');
+      expect(el.children[0].children.length).to.equal(0);
     });
 
     it('should ignore non-element nodes', function () {
       el.innerHTML = '<span>one</span>\n<span>two</span>non-element-node';
-        tmp('<span><content select="span"></content></span>')
-          .innerHTML.should.equal('<span><!----><span>one</span><span>two</span><!----></span>');
+      tmp('<span><content select="span"></content></span>');
+      expect(el.innerHTML).to.not.contain('non-element-node');
     });
 
     describe('default content', function () {
@@ -85,10 +87,10 @@ define(['../../src/main.js'], function (template) {
 
     describe('wrapper methods', function () {
       function expectTemplate(one, two, any) {
-        expect(el.innerHTML).to.equal(
-          '<span><!---->' + (one || '') + '<!----></span>' +
-          '<span><!---->' + (two || '') + '<!----></span>' +
-          '<span><!---->' + (any || '') + '<!----></span>' +
+        expect(el.innerHTML.replace(/<!--[\s\S]*?-->/g, '')).to.equal(
+          '<span>' + (one || '') + '</span>' +
+          '<span>' + (two || '') + '</span>' +
+          '<span>' + (any || '') + '</span>' +
           '<span>dummy</span>'
         );
       }
@@ -224,6 +226,19 @@ define(['../../src/main.js'], function (template) {
       temp(div);
 
       div.children[0].should.equal(input);
+    });
+  });
+
+  describe('Parsing HTML input for placeholders', function () {
+    it('should detect where to project content to from HTML input', function () {
+      var div = document.createElement('div');
+      div.innerHTML = '<!-- content { "selector": "h1" } --><!-- /content -->' +
+        '<div>' +
+          '<!-- content --><!-- /content -->'
+        '</div>';
+
+      skateTemplateHtml.wrap(div).innerHTML = '<h1>Heading</h1><span>1</span><a>2</a>';
+      expect(div.innerHTML).to.equal('<!-- content { "selector": "h1" } --><h1>Heading</h1><!-- /content --><div><!-- content --><span>1</span><a>2</a><!-- /content --></div>');
     });
   });
 });
