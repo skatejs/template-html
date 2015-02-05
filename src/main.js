@@ -557,9 +557,7 @@
           }
         }
       } else {
-        parseNodeForContent(childNode).forEach(function (contentData) {
-          contentDatas.push(contentData);
-        });
+        contentDatas = contentDatas.concat(parseNodeForContent(childNode));
       }
     }
 
