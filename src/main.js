@@ -556,11 +556,9 @@
             lastContentNode = undefined;
           }
         }
+      } else {
+        contentDatas = contentDatas.concat(parseNodeForContent(childNode));
       }
-
-      parseNodeForContent(childNode).forEach(function (contentData) {
-        contentDatas.push(contentData);
-      });
     }
 
     return contentDatas;
