@@ -497,7 +497,7 @@
 
   function parseCommentNode (node) {
     var data;
-    var matches = node.textContent.match(/^\s*(\/?)content\s*([\s\S]*?)\s*$/i);
+    var matches = node.textContent.match(/^ (\/?)content (.*)/i);
 
     if (matches) {
       if (matches[2]) {
