@@ -2,6 +2,7 @@
   "name": "skatejs-template-html",
   "description": "skatejs-template-html",
   "version": "0.0.0",
+  "main": "dist/template-html.js",
   "repository": "https://github.com/skatejs/template-html",
   "dependencies": {},
   "devDependencies": {}
