@@ -1,7 +1,7 @@
 Skate HTML Templates
 ====================
 
-Skate HTML templates is designed to be a very light implementation of how Shadow DOM uses `<content>` nodes and `select` attributes to project Light DOM.
+Skate HTML templates is designed to be a very light implementation of how Shadow DOM uses `<content>` nodes and `select` attributes to project Light DOM. Just because it has Skate in the name doesn't mean you have to use it with Skate. It can be used completely on its own, too.
 
 It works by defining a template:
 
