@@ -1,4 +1,3 @@
-
 'use strict';
 
 var DocumentFragment = window.DocumentFragment;
