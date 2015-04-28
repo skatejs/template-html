@@ -1,6 +1,7 @@
 'use strict';
 
 import content from './util/content';
+import fixInnerHTML from './fix/inner-html';
 import fragment from './util/fragment';
 import wrapAppendChild from './wrap/append-child';
 import wrapChildNodes from './wrap/child-nodes';
@@ -16,7 +17,9 @@ import wrapReplaceChild from './wrap/replace-child';
 import wrapTextContent from './wrap/text-content';
 
 var elProto = window.Element.prototype;
-var elProtoInnerHTML = Object.getOwnPropertyDescriptor(elProto, 'innerHTML');
+var fixes = {
+  innerHTML: fixInnerHTML
+};
 var wrapper = {
   appendChild: wrapAppendChild,
   childNodes: wrapChildNodes,
@@ -155,9 +158,9 @@ function skateTemplateHtml () {
     // There's an issue with passing in nodes that are already wrapped where we
     // must use their `innerHTML` rather than their `childNodes` as the light
     // DOM of the new shadow DOM being applied to the element.
-    var frag = target.__wrapped
-      ? fragment.fromString(target.innerHTML)
-      : fragment.fromNodeList(target.childNodes);
+    var frag = target.__wrapped ?
+      fragment.fromString(target.innerHTML) :
+      fragment.fromNodeList(target.childNodes);
 
     skateTemplateHtml.unwrap(target);
     target.innerHTML = template;
@@ -217,81 +220,12 @@ skateTemplateHtml.unwrap = function (node) {
 };
 
 
-// Overrides
-// ---------
+// Fixes to Native Implementations
+// -------------------------------
 
-// Returns the HTML of the specified node.
-function htmlOf (node) {
-  var attrs;
-  var attrsLen;
-  var childNodes;
-  var childNodesLen;
-  var html;
-  var tagName;
-
-  if (node.nodeType === 3) {
-    return node.textContent;
-  }
-
-  if (node.nodeType === 8) {
-    return `<!--${node.textContent}-->`;
-  }
-
-  attrs = node.attributes;
-  attrsLen = attrs.length;
-  childNodes = node.childNodes;
-  childNodesLen = childNodes.length;
-  tagName = node.nodeName.toLowerCase();
-  html = `<${tagName}`;
-
-  for (let a = 0; a < attrsLen; a++) {
-    let attr = attrs[a];
-    let attrName = attr.nodeName;
-    let attrValue = attr.value || attr.nodeValue;
-    html += ` ${attrName}`;
-    if (typeof attrValue === 'string') {
-      html += `="${attrValue}"`;
-    }
-  }
-
-  html += '>';
-
-  for (let a = 0; a < childNodesLen; a++) {
-    let childNode = childNodes[a];
-    html += htmlOf(childNode);
-  }
-
-  html += `</${tagName}>`;
-
-  return html;
+for (let name in fixes) {
+  Object.defineProperty(elProto, name, fixes[name]);
 }
-
-// We must override the innerHTML getter because once it is wrapped, it never
-// returns the correct HTML possibly due to an internal cache that never gets
-// updated.
-Object.defineProperty(elProto, 'innerHTML', {
-  get: function () {
-    var html = '';
-    var childNodes = this.childNodes;
-    var childNodesLen = childNodes.length;
-
-    for (var a = 0; a < childNodesLen; a++) {
-      let childNode = childNodes[a];
-      html += htmlOf(childNode);
-    }
-
-    return html;
-  },
-  set: function (html) {
-    if (elProtoInnerHTML) {
-      elProtoInnerHTML.set.call(this, html);
-      return;
-    }
-
-    var frag = fragment.fromString(html);
-    this.appendChild(frag);
-  }
-});
 
 
 // Exporting
