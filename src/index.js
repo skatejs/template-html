@@ -182,16 +182,14 @@ skateTemplateHtml.wrap = function (node) {
   }
 
   for (let name in wrapper) {
+    let elProtoDescriptor = Object.getOwnPropertyDescriptor(elProto, name) || { value: node[name] };
     let savedName = '__' + name;
 
     // Allows overridden properties to be overridden.
-    wrapper[name].configurable = true;
+    elProtoDescriptor.configurable = wrapper[name].configurable = true;
 
     // Save the old property so that it can be used if need be.
-    Object.defineProperty(node, savedName, Object.getOwnPropertyDescriptor(elProto, name) || {
-      configurable: true,
-      value: node[name]
-    });
+    Object.defineProperty(node, savedName, elProtoDescriptor);
 
     // Define the overridden property.
     Object.defineProperty(node, name, wrapper[name]);
