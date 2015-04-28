@@ -102,7 +102,7 @@ describe('Templates', function () {
       el.innerHTML = '<one></one><two></two>';
       tmp(
         '<span><content select="one"></content></span>' +
-        '<span><content select="two, three, .three"></content></span>' +
+        '<span><content select="two, three"></content></span>' +
         '<span><content></content></span>' +
         '<span>dummy</span>'
       );
@@ -174,37 +174,38 @@ describe('Templates', function () {
       // expectTemplate('', '', 'testing');
     });
 
-    // describe('insertAdjacentHTML', function () {
-    //   beforeEach(function () {
-    //     el.innerHTML = '<one></one><two></two>';
-    //     tmp(
-    //       '<span><content></span>' +
-    //       '<span><content select="two, three"></span>' +
-    //       '<span><content select=""></span>' +
-    //       '<span>dummy</span>'
-    //     );
-    //   });
-    //
-    //   it('beforebegin', function () {
-    //     el.insertAdjacentHTML('beforebegin', '<three></three>');
-    //     expect(el.previousSibling.tagName).to.equal('THREE');
-    //   });
-    //
-    //   it('afterbegin', function () {
-    //     el.insertAdjacentHTML('afterbegin', '<three></three>');
-    //     expect(el.firstChild.tagName).to.equal('THREE');
-    //   });
-    //
-    //   it('beforeend', function () {
-    //     el.insertAdjacentHTML('beforeend', '<three></three>');
-    //     expect(el.childNodes[2].tagName).to.equal('THREE');
-    //   });
-    //
-    //   it('afterend', function () {
-    //     el.insertAdjacentHTML('afterend', '<three></three>');
-    //     expect(el.nextSibling.tagName).to.equal('THREE');
-    //   });
-    // });
+    describe('insertAdjacentHTML', function () {
+      beforeEach(function () {
+        el.innerHTML = '<one></one><two></two>';
+        tmp(
+          '<span><content></content></span>' +
+          '<span><content select="two, three"></content></span>' +
+          '<span><content select=""></content></span>' +
+          '<span>dummy</span>'
+        );
+      });
+
+      it('beforebegin', function () {
+        el.insertAdjacentHTML('beforebegin', '<three></three>');
+        expect(el.previousSibling.tagName).to.equal('THREE');
+      });
+
+      it('afterbegin', function () {
+        el.insertAdjacentHTML('afterbegin', '<three></three>');
+        expect(el.firstChild.tagName).to.equal('THREE');
+      });
+
+      it('beforeend', function () {
+        el.insertAdjacentHTML('beforeend', '<three></three>');
+        template.wrap(el);
+        expect(el.childNodes[2].tagName).to.equal('THREE');
+      });
+
+      it('afterend', function () {
+        el.insertAdjacentHTML('afterend', '<three></three>');
+        expect(el.nextSibling.tagName).to.equal('THREE');
+      });
+    });
 
     describe('removeChild', function () {
       it('should remove the specified child', function () {

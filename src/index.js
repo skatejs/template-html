@@ -35,10 +35,9 @@ var wrapper = {
 function cacheContentData (node) {
   var contentNodes = node.getElementsByTagName('content');
   var contentNodesLen = contentNodes && contentNodes.length;
+  var contentData = [];
 
   if (contentNodesLen) {
-    var contentData = [];
-
     while (contentNodes.length) {
       var contentNode = contentNodes[0];
       var parentNode = contentNode.parentNode;
@@ -66,9 +65,9 @@ function cacheContentData (node) {
         selector: selector
       }) + ' ';
     }
-
-    content.set(node, contentData);
   }
+
+  content.set(node, contentData);
 }
 
 
@@ -153,8 +152,14 @@ function skateTemplateHtml () {
   var template = [].slice.call(arguments).join('');
 
   return function (target) {
-    var frag = fragment.fromNodeList(target.childNodes);
+    // There's an issue with passing in nodes that are already wrapped where we
+    // must use their `innerHTML` rather than their `childNodes` as the light
+    // DOM of the new shadow DOM being applied to the element.
+    var frag = target.__wrapped
+      ? fragment.fromString(target.innerHTML)
+      : fragment.fromNodeList(target.childNodes);
 
+    skateTemplateHtml.unwrap(target);
     target.innerHTML = template;
     cacheContentData(target);
     skateTemplateHtml.wrap(target);
@@ -244,8 +249,8 @@ function htmlOf (node) {
   for (let a = 0; a < attrsLen; a++) {
     let attr = attrs[a];
     let attrName = attr.nodeName;
-    let attrValue = attr.nodevalue;
-    html += attrName;
+    let attrValue = attr.value || attr.nodeValue;
+    html += ` ${attrName}`;
     if (typeof attrValue === 'string') {
       html += `="${attrValue}"`;
     }
