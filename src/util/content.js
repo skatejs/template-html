@@ -1,5 +1,7 @@
 'use strict';
 
+import call from './call';
+
 export default class {
   static get (element) {
     return element.__skatejs_template_html_content;
@@ -15,7 +17,7 @@ export default class {
     var nodesLen = nodes.length;
 
     for (var a = 0; a < nodesLen; a++) {
-      content.container.insertBefore(nodes[a], content.endNode);
+      call(content.container, 'insertBefore')(nodes[a], content.endNode);
     }
 
     content.isDefault = true;
@@ -27,7 +29,7 @@ export default class {
 
     for (var a = 0; a < nodesLen; a++) {
       var node = nodes[a];
-      node.parentNode.removeChild(node);
+      call(node.parentNode, 'removeChild')(node);
     }
 
     content.isDefault = false;
