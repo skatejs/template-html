@@ -85,9 +85,9 @@ body.innerHTML += '<p>Third paragraph.</p>';
 Additionally, if all paragraphs were removed from the `<section>`:
 
 ```js
-body.removeChild($body.childNodes[2]);
-body.removeChild($body.childNodes[1]);
-body.removeChild($body.childNodes[0]);
+body.removeChild(body.childNodes[2]);
+body.removeChild(body.childNodes[1]);
+body.removeChild(body.childNodes[0]);
 ```
 
 Then the default content that we specified in the template definition would take their place:
@@ -124,9 +124,10 @@ The properties and methods that are overridden to give you this behaviour are:
 7. `insertBefore()`
 8. `lastChild`
 9. `outerHTML`
-10. `removeChild()`
-11. `replaceChild()`
-12. `textContent`
+10. `remove()`
+11. `removeChild()`
+12. `replaceChild()`
+13. `textContent`
 
 The following properties and methods are not overridden but will be:
 
