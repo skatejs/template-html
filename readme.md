@@ -124,10 +124,9 @@ The properties and methods that are overridden to give you this behaviour are:
 7. `insertBefore()`
 8. `lastChild`
 9. `outerHTML`
-10. `remove()`
-11. `removeChild()`
-12. `replaceChild()`
-13. `textContent`
+10. `removeChild()`
+11. `replaceChild()`
+12. `textContent`
 
 The following properties and methods are not overridden but will be:
 
@@ -140,6 +139,7 @@ The following properties and methods are not overridden but will be:
 7. `previousSibling`
 8. `querySelector()`
 9. `querySelectorAll()`
+10. `remove()`
 
 
 License
