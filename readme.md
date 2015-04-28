@@ -116,25 +116,25 @@ If you decide you want to put some content back in, then it will remove the defa
 The properties and methods that are wrapped to give you this behaviour are:
 
 1. `childNodes`
-2. `firstChild`
-3. `innerHTML`
-4. `lastChild`
-5. `outerHTML`
-6. `textContent`
-7. `appendChild()`
-8. `insertAdjacentHTML()`
-9. `insertBefore()`
-10. `removeChild()`
-11. `replaceChild()`
+2. `children`
+3. `firstChild`
+4. `innerHTML`
+5. `lastChild`
+6. `outerHTML`
+7. `textContent`
+8. `appendChild()`
+9. `insertAdjacentHTML()`
+10. `insertBefore()`
+11. `removeChild()`
+12. `replaceChild()`
 
 The following properties and methods are not wrapped (but are planned to be):
 
-1. `elements`
-2. `getElementsByClassName()`
-3. `getElementsByTagName()`
-4. `getElementsByTagNameNS()`
-5. `querySelector()`
-6. `querySelectorAll()`
+1. `getElementsByClassName()`
+2. `getElementsByTagName()`
+3. `getElementsByTagNameNS()`
+4. `querySelector()`
+5. `querySelectorAll()`
 
 Additionally, descendants are not wrapped (but are planned to be). This means the following members on descendants behave as they normally would:
 
