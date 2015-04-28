@@ -113,7 +113,7 @@ To unwrap a node that has been wrapped (accessors / methods overridden) just cal
 skateTemplateHtml.unwrap(document.body);
 ```
 
-The properties and methods that are wrapped to give you this behaviour are:
+The properties and methods that are overridden to give you this behaviour are:
 
 1. `appendChild()`
 2. `childNodes`
@@ -128,7 +128,7 @@ The properties and methods that are wrapped to give you this behaviour are:
 11. `replaceChild()`
 12. `textContent`
 
-The following properties and methods are not wrapped (but are planned to be):
+The following properties and methods are not overridden but will be:
 
 1. `getElementsByClassName()`
 2. `getElementsByTagName()`
