@@ -1,3 +1,28 @@
+// src/util/call.js
+__9a4ed6133544b918e78ae75e2532a19a = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });exports['default'] = function (node, fn) {
+    fn = node['__' + fn] || node[fn];
+    return function () {
+      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+  
+      return fn.apply(node, args);
+    };
+  };
+  
+  module.exports = exports['default'];
+  
+  return module.exports;
+}).call(this);
+
 // src/util/content.js
 __19ae81b353686d785b09cf84bda3c843 = (function () {
   var module = {
@@ -5,13 +30,19 @@ __19ae81b353686d785b09cf84bda3c843 = (function () {
   };
   var exports = module.exports;
   
+  var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+  
   var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
   
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
   
   Object.defineProperty(exports, '__esModule', {
     value: true
-  });var _default = (function () {
+  });
+  
+  var _call = __9a4ed6133544b918e78ae75e2532a19a;
+  
+  var _call2 = _interopRequireDefault(_call);var _default = (function () {
     var _class = function _default() {
       _classCallCheck(this, _class);
     };
@@ -34,7 +65,7 @@ __19ae81b353686d785b09cf84bda3c843 = (function () {
         var nodesLen = nodes.length;
   
         for (var a = 0; a < nodesLen; a++) {
-          content.container.insertBefore(nodes[a], content.endNode);
+          _call2['default'](content.container, 'insertBefore')(nodes[a], content.endNode);
         }
   
         content.isDefault = true;
@@ -47,7 +78,7 @@ __19ae81b353686d785b09cf84bda3c843 = (function () {
   
         for (var a = 0; a < nodesLen; a++) {
           var node = nodes[a];
-          node.parentNode.removeChild(node);
+          _call2['default'](node.parentNode, 'removeChild')(node);
         }
   
         content.isDefault = false;
@@ -201,31 +232,6 @@ __c41e208eb421052a6f8900284e102de7 = (function () {
       this.appendChild(frag);
     }
   };
-  module.exports = exports['default'];
-  
-  return module.exports;
-}).call(this);
-
-// src/util/call.js
-__9a4ed6133544b918e78ae75e2532a19a = (function () {
-  var module = {
-    exports: {}
-  };
-  var exports = module.exports;
-  
-  Object.defineProperty(exports, '__esModule', {
-    value: true
-  });exports['default'] = function (node, fn) {
-    fn = node['__' + fn] || node[fn];
-    return function () {
-      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-  
-      return fn.apply(node, args);
-    };
-  };
-  
   module.exports = exports['default'];
   
   return module.exports;
