@@ -283,7 +283,13 @@ Object.defineProperty(elProto, 'innerHTML', {
     return html;
   },
   set: function (html) {
-    elProtoInnerHTML.set.call(this, html);
+    if (elProtoInnerHTML) {
+      elProtoInnerHTML.set.call(this, html);
+      return;
+    }
+
+    var frag = fragment.fromString(html);
+    this.appendChild(frag);
   }
 });
 
