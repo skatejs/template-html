@@ -27,6 +27,16 @@ function setData (element, name, value) {
   return element;
 }
 
+function createFragmentFromNodeList (nodeList) {
+  var frag = document.createDocumentFragment();
+
+  while (nodeList && nodeList.length) {
+    frag.appendChild(nodeList[0]);
+  }
+
+  return frag;
+}
+
 function createFragmentFromString (domString) {
   var specialMap = {
     caption: 'table',
@@ -45,16 +55,6 @@ function createFragmentFromString (domString) {
   div.innerHTML = domString;
 
   return createFragmentFromNodeList(div.childNodes);
-}
-
-function createFragmentFromNodeList (nodeList) {
-  var frag = document.createDocumentFragment();
-
-  while (nodeList && nodeList.length) {
-    frag.appendChild(nodeList[0]);
-  }
-
-  return frag;
 }
 
 function getNodesBetween (startNode, endNode) {
@@ -87,6 +87,29 @@ function findChildrenMatchingSelector (sourceNode, selector) {
   }
 
   return [].slice.call(sourceNode.childNodes) || [];
+}
+
+function addDefaultContent (content) {
+  var nodes = content.defaultNodes;
+  var nodesLen = nodes.length;
+
+  for (var a = 0; a < nodesLen; a++) {
+    content.container.insertBefore(nodes[a], content.endNode);
+  }
+
+  content.isDefault = true;
+}
+
+function removeDefaultContent (content) {
+  var nodes = content.defaultNodes;
+  var nodesLen = nodes.length;
+
+  for (var a = 0; a < nodesLen; a++) {
+    var node = nodes[a];
+    node.parentNode.removeChild(node);
+  }
+
+  content.isDefault = false;
 }
 
 function htmlTemplateParentWrapper (element) {
@@ -392,29 +415,6 @@ function htmlTemplateParentWrapper (element) {
       }
     }
   };
-}
-
-function addDefaultContent (content) {
-  var nodes = content.defaultNodes;
-  var nodesLen = nodes.length;
-
-  for (var a = 0; a < nodesLen; a++) {
-    content.container.insertBefore(nodes[a], content.endNode);
-  }
-
-  content.isDefault = true;
-}
-
-function removeDefaultContent (content) {
-  var nodes = content.defaultNodes;
-  var nodesLen = nodes.length;
-
-  for (var a = 0; a < nodesLen; a++) {
-    var node = nodes[a];
-    node.parentNode.removeChild(node);
-  }
-
-  content.isDefault = false;
 }
 
 function createProxyProperty (node, name) {
