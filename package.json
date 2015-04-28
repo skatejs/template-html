@@ -6,24 +6,12 @@
   "main": "dist/template-html.js",
   "dependencies": {},
   "devDependencies": {
-    "bower": "latest",
-    "glob": "latest",
-    "grunt": "latest",
-    "grunt-available-tasks": "latest",
-    "grunt-contrib-clean": "latest",
-    "grunt-contrib-concat": "latest",
-    "grunt-contrib-jshint": "latest",
-    "grunt-contrib-uglify": "latest",
-    "grunt-jscs": "latest",
-    "grunt-karma": "latest",
-    "karma-chai": "latest",
-    "karma-chrome-launcher": "latest",
-    "karma-firefox-launcher": "latest",
-    "karma-mocha": "latest",
-    "karma-phantomjs-launcher": "latest",
-    "karma-requirejs": "latest"
+    "babel": "^5.1.13",
+    "chippy": "treshugart/chippy#d9a8260ea6ca00657c33b757b8ebedf15b93585e",
+    "gulp": "^3.8.11",
+    "gulp-auto-task": "0.0.1"
   },
   "scripts": {
-    "test": "grunt karma:cli"
+    "test": "gulp test"
   }
 }
