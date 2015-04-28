@@ -6,7 +6,18 @@ Skate HTML templates is designed to be a very light implementation of how Shadow
 It works by defining a template:
 
 ```js
-var myTemplate = skateTemplateHtml('<article><h3><content select=".heading"></content></h3><section><content><p>There is no content to display.</p></content></section></article>');
+var myTemplate = skateTemplateHtml(`
+  <article>
+    <h3>
+      <content select=".heading"></content>
+    </h3>
+    <section>
+      <content>
+        <p>There is no content to display.</p>
+      </content>
+    </section>
+  </article>
+`);
 ```
 
 The compiled template is just a function that you call on an element. If you called the template above on the body:
