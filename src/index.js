@@ -1,5 +1,10 @@
 'use strict';
 
+import {
+  getData,
+  setData
+} from './util/data';
+
 var DocumentFragment = window.DocumentFragment;
 var elProto = window.HTMLElement.prototype;
 var matchesSelector = (
@@ -9,22 +14,6 @@ var matchesSelector = (
   elProto.mozMatchesSelector ||
   elProto.oMatchesSelector
 );
-
-function getData (element, name) {
-  if (element.__SKATE_TEMPLATE_HTML_DATA) {
-    return element.__SKATE_TEMPLATE_HTML_DATA[name];
-  }
-}
-
-function setData (element, name, value) {
-  if (!element.__SKATE_TEMPLATE_HTML_DATA) {
-    element.__SKATE_TEMPLATE_HTML_DATA = {};
-  }
-
-  element.__SKATE_TEMPLATE_HTML_DATA[name] = value;
-
-  return element;
-}
 
 function createFragmentFromNodeList (nodeList) {
   var frag = document.createDocumentFragment();
