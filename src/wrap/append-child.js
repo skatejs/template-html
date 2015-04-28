@@ -21,9 +21,9 @@ export default {
 
     for (var b = 0; b < contentNodesLen; b++) {
       let contentNode = contentNodes[b];
-      let contentSelector = contentNode.selector;
+      let selector = contentNode.selector;
 
-      if (!contentSelector || node instanceof window.HTMLElement && find.matches(node, contentSelector)) {
+      if (!selector || find.matches(node, selector)) {
         content.removeDefault(contentNode);
         call(contentNode.endNode.parentNode, 'insertBefore')(node, contentNode.endNode);
         break;

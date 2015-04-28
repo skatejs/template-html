@@ -23,7 +23,7 @@ export default {
   },
 
   matches: function (node, selector) {
-    return matchesSelector.call(node, selector);
+    return node.nodeType === 1 && matchesSelector.call(node, selector);
   },
 
   selector: function (sourceNode, selector) {

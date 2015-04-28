@@ -1,5 +1,6 @@
 'use strict';
 
+import call from '../util/call';
 import content from '../util/content';
 import find from '../util/find';
 
@@ -54,7 +55,7 @@ export default {
           var selector = contentNode.selector;
 
           if (!selector || find.matches(node, selector)) {
-            betweenNode.parentNode.insertBefore(node, betweenNode);
+            call(betweenNode.parentNode, 'insertBefore')(node, betweenNode);
             break mainLoop;
           }
         }

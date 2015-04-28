@@ -102,7 +102,7 @@ describe('Templates', function () {
       el.innerHTML = '<one></one><two></two>';
       tmp(
         '<span><content select="one"></content></span>' +
-        '<span><content select="two, three"></content></span>' +
+        '<span><content select="two, three, .three"></content></span>' +
         '<span><content></content></span>' +
         '<span>dummy</span>'
       );
@@ -142,7 +142,7 @@ describe('Templates', function () {
     });
 
     it('should insert the element at the correct index in the light DOM: 2', function () {
-      el.appendChild(document.createElement('three'), el.childNodes[2]);
+      el.insertBefore(document.createElement('three'), el.childNodes[1]);
       expect(el.children[0]).to.equal(el.__children[0].children[0]);
       expect(el.children[1]).to.equal(el.__children[1].children[0]);
       expect(el.children[2]).to.equal(el.__children[1].children[1]);
