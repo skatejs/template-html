@@ -113,6 +113,12 @@ To unwrap a node that has been wrapped (accessors / methods overridden) just cal
 skateTemplateHtml.unwrap(document.body);
 ```
 
+You can also manually wrap an element instead of templating it:
+
+```js
+skateTemplateHtml.wrap(document.body);
+```
+
 The properties and methods that are overridden to give you this behaviour are:
 
 1. `appendChild()`
