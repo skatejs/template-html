@@ -1,7 +1,7 @@
 Skate HTML Templates
 ====================
 
-Skate HTML templates is a simple templating engine based on how the Shadow DOM spec uses the `<content>` element and `select` attribute.
+Skate HTML templates is designed to be a very light implementation of how Shadow DOM uses `<content>` nodes and `select` attributes to project Light DOM.
 
 It works by defining a template:
 
@@ -50,18 +50,12 @@ Then it would have been transformed into:
 </body>
 ```
 
-If you want the templating engine to dynamically project elements into `<content>` areas, you must first wrap the element:
-
-```js
-var $body = skateTemplateHtml.wrap(document.body);
-```
-
-Once wrapped, you work with the wrapper just like a normal element. For example, if you wanted to add a third paragraph, all you'd need to do is:
+Once you template an element, it's accessors and methods are overridden so that you're only working with the Light DOM.
 
 ```js
 var thirdParagraph = document.createElement('p');
 thirdParagraph.textContent = 'Third paragraph.';
-$body.appendChild(thirdParagraph);
+body.appendChild(thirdParagraph);
 
 ```
 
@@ -85,15 +79,15 @@ Notice how the when you appended the content, it didn't actually put it as a fir
 You could have achieved the same thing doing:
 
 ```js
-$body.innerHTML += '<p>Third paragraph.</p>';
+body.innerHTML += '<p>Third paragraph.</p>';
 ```
 
 Additionally, if all paragraphs were removed from the `<section>`:
 
 ```js
-$body.removeChild($body.childNodes[2]);
-$body.removeChild($body.childNodes[1]);
-$body.removeChild($body.childNodes[0]);
+body.removeChild($body.childNodes[2]);
+body.removeChild($body.childNodes[1]);
+body.removeChild($body.childNodes[0]);
 ```
 
 Then the default content that we specified in the template definition would take their place:
@@ -113,38 +107,38 @@ Then the default content that we specified in the template definition would take
 
 If you decide you want to put some content back in, then it will remove the default content in favour of the content you specify.
 
+To unwrap a node that has been wrapped (accessors / methods overridden) just call `unwrap()` on the node:
+
+```js
+skateTemplateHtml.unwrap(document.body);
+```
+
 The properties and methods that are wrapped to give you this behaviour are:
 
-1. `childNodes`
-2. `children`
-3. `firstChild`
-4. `innerHTML`
-5. `lastChild`
-6. `outerHTML`
-7. `textContent`
-8. `appendChild()`
-9. `insertAdjacentHTML()`
-10. `insertBefore()`
-11. `removeChild()`
-12. `replaceChild()`
+1. `appendChild()`
+2. `childNodes`
+3. `children`
+4. `firstChild`
+5. `innerHTML`
+6. `insertAdjacentHTML()`
+7. `insertBefore()`
+8. `lastChild`
+9. `outerHTML`
+10. `removeChild()`
+11. `replaceChild()`
+12. `textContent`
 
 The following properties and methods are not wrapped (but are planned to be):
 
 1. `getElementsByClassName()`
 2. `getElementsByTagName()`
 3. `getElementsByTagNameNS()`
-4. `querySelector()`
-5. `querySelectorAll()`
-
-Additionally, descendants are not wrapped (but are planned to be). This means the following members on descendants behave as they normally would:
-
-1. `nextSibling`
-2. `parentElement`
-3. `parentNode`
-4. `previousSibling`
-
-*The wrapped elements may look and act like normal elements (including instanceof checks), but due to browser API limitations, you cannot pass it off to other DOM methods as an element.*
-
+4. `nextSibling`
+5. `parentElement`
+6. `parentNode`
+7. `previousSibling`
+8. `querySelector()`
+9. `querySelectorAll()`
 
 
 License
