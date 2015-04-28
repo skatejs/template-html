@@ -74,7 +74,7 @@ Doing that would result in:
 </body>
 ```
 
-Notice how the when you appended the content, it didn't actually put it as a first child to the `body`, it actually moved it into the correct content area in the correct spot.
+Notice how the when you appended the content, it didn't actually append it to the `body`, it actually appended it to the content area that was selecting paragraphs.
 
 You could have achieved the same thing doing:
 
