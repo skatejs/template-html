@@ -9,6 +9,10 @@ export default {
     var contentNodes = content.get(this);
     var contentNodesLen = contentNodes.length;
 
+    if (!contentNodesLen) {
+      return this.__appendChild(node);
+    }
+
     if (node instanceof window.DocumentFragment) {
       let fragChildNodes = node.childNodes;
 

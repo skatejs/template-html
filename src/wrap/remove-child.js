@@ -9,6 +9,12 @@ export default {
     var contentNodesLen = contentNodes.length;
     var removed = false;
 
+    alert('called');
+
+    if (!contentNodesLen) {
+      return this.__removeChild(childNode);
+    }
+
     for (let a = 0; a < contentNodesLen; a++) {
       let contentNode = contentNodes[a];
 

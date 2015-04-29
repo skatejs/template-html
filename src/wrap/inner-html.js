@@ -23,6 +23,11 @@ export default {
     var contentNodesLen = contentNodes.length;
     var targetFragment = fragment.fromString(html);
 
+    if (!contentNodesLen) {
+      this.__appendChild(targetFragment);
+      return;
+    }
+
     for (let a = 0; a < contentNodesLen; a++) {
       let contentNode = contentNodes[a];
       let childNodes = find.between(contentNode.startNode, contentNode.endNode);
