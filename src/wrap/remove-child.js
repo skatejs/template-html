@@ -15,11 +15,14 @@ export default {
       if (contentNode.container === childNode.parentNode) {
         call(contentNode.container, 'removeChild')(childNode);
         removed = true;
-        break;
       }
 
       if (contentNode.startNode.nextSibling === contentNode.endNode) {
         content.addDefault(contentNode);
+      }
+
+      if (removed) {
+        break;
       }
     }
 

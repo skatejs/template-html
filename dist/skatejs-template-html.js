@@ -819,11 +819,14 @@ __1608906990ce448dd1b582b1e451d224 = (function () {
         if (contentNode.container === childNode.parentNode) {
           _call2['default'](contentNode.container, 'removeChild')(childNode);
           removed = true;
-          break;
         }
   
         if (contentNode.startNode.nextSibling === contentNode.endNode) {
           _content2['default'].addDefault(contentNode);
+        }
+  
+        if (removed) {
+          break;
         }
       }
   
