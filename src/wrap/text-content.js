@@ -8,7 +8,7 @@ export default {
     var childNodes = this.childNodes;
     var childNodesLength = this.childNodes.length;
 
-    for (var a = 0; a < childNodesLength; a++) {
+    for (let a = 0; a < childNodesLength; a++) {
       textContent += childNodes[a].textContent;
     }
 
@@ -23,8 +23,8 @@ export default {
     this.innerHTML = '';
 
     // Find the first content node without a selector.
-    for (var a = 0; a < contentNodesLen; a++) {
-      var contentNode = contentNodes[a];
+    for (let a = 0; a < contentNodesLen; a++) {
+      let contentNode = contentNodes[a];
 
       if (!contentNode.selector) {
         acceptsTextContent = contentNode;

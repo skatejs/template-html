@@ -19,7 +19,7 @@ export default {
       return this;
     }
 
-    for (var b = 0; b < contentNodesLen; b++) {
+    for (let b = 0; b < contentNodesLen; b++) {
       let contentNode = contentNodes[b];
       let selector = contentNode.selector;
 

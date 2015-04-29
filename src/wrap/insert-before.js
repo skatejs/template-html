@@ -23,7 +23,7 @@ export default {
       if (fragChildNodes) {
         var fragChildNodesLength = fragChildNodes.length;
 
-        for (var a = 0; a < fragChildNodesLength; a++) {
+        for (let a = 0; a < fragChildNodesLength; a++) {
           this.insertBefore(fragChildNodes[a], referenceNode);
         }
       }
@@ -39,20 +39,20 @@ export default {
     // 3. If a reference node is invalid, an exception is thrown, but also
     //    it's state would not change even if it wasn't.
     mainLoop:
-    for (var b = 0; b < contentNodesLen; b++) {
+    for (let b = 0; b < contentNodesLen; b++) {
       var contentNode = contentNodes[b];
       var betweenNodes = find.between(contentNode.startNode, contentNode.endNode);
       var betweenNodesLen = betweenNodes.length;
 
-      for (var c = 0; c < betweenNodesLen; c++) {
-        var betweenNode = betweenNodes[c];
+      for (let c = 0; c < betweenNodesLen; c++) {
+        let betweenNode = betweenNodes[c];
 
         if (betweenNode === referenceNode) {
           hasFoundReferenceNode = true;
         }
 
         if (hasFoundReferenceNode) {
-          var selector = contentNode.selector;
+          let selector = contentNode.selector;
 
           if (!selector || find.matches(node, selector)) {
             call(betweenNode.parentNode, 'insertBefore')(node, betweenNode);

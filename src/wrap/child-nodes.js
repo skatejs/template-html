@@ -10,7 +10,7 @@ export default {
     var nodes = [];
 
     for (var a = 0; a < contentNodesLen; a++) {
-      var contentNode = contentNodes[a];
+      let contentNode = contentNodes[a];
 
       if (contentNode.isDefault) {
         continue;

@@ -8,8 +8,8 @@ export default {
     var contentNodesLen = contentNodes.length;
     var removed = false;
 
-    for (var a = 0; a < contentNodesLen; a++) {
-      var contentNode = contentNodes[a];
+    for (let a = 0; a < contentNodesLen; a++) {
+      let contentNode = contentNodes[a];
 
       if (contentNode.container === childNode.parentNode) {
         contentNode.container.removeChild(childNode);

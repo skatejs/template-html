@@ -7,10 +7,10 @@ export default {
     var attrs = this.attributes;
 
     if (attrs) {
-      var attrsLength = attrs.length;
+      let attrsLength = attrs.length;
 
-      for (var a = 0; a < attrsLength; a++) {
-        var attr = attrs[a];
+      for (let a = 0; a < attrsLength; a++) {
+        let attr = attrs[a];
         html += ' ' + attr.nodeName + '="' + attr.nodeValue + '"';
       }
     }

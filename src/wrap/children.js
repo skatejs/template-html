@@ -6,7 +6,7 @@ export default {
     var childNodesLen = childNodes.length;
     var children = [];
 
-    for (var a = 0; a < childNodesLen; a++) {
+    for (let a = 0; a < childNodesLen; a++) {
       let childNode = childNodes[a];
 
       if (childNode.nodeType === 1) {

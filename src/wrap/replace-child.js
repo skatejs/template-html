@@ -7,8 +7,8 @@ export default {
     var contentNodes = content.get(this);
     var contentNodesLen = contentNodes.length;
 
-    for (var a = 0; a < contentNodesLen; a++) {
-      var contentNode = contentNodes[a];
+    for (let a = 0; a < contentNodesLen; a++) {
+      let contentNode = contentNodes[a];
 
       if (contentNode.container === oldChild.parentNode) {
         contentNode.container.replaceChild(newChild, oldChild);
