@@ -2,7 +2,7 @@
 
 import fragment from '../util/fragment';
 
-var elProtoInnerHTML = Object.getOwnPropertyDescriptor(window.Element.prototype, 'innerHTML');
+var elementInnerHTML = Object.getOwnPropertyDescriptor(window.Element.prototype, 'innerHTML');
 
 function htmlOf (node) {
   var attrs;
@@ -71,8 +71,8 @@ export default {
   // called to get built-in accessors so we've got to fully re-implement
   // innerHTML if we can't get an accessor for it.
   set: function (html) {
-    if (elProtoInnerHTML) {
-      elProtoInnerHTML.set.call(this, html);
+    if (elementInnerHTML && elementInnerHTML.set) {
+      elementInnerHTML.set.call(this, html);
       return;
     }
 

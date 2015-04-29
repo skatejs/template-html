@@ -2,6 +2,7 @@
 
 import content from './util/content';
 import fixInnerHTML from './fix/inner-html';
+import fixTextContent from './fix/text-content';
 import fragment from './util/fragment';
 import wrapAppendChild from './wrap/append-child';
 import wrapChildNodes from './wrap/child-nodes';
@@ -18,7 +19,8 @@ import wrapTextContent from './wrap/text-content';
 
 var elProto = window.Element.prototype;
 var fixes = {
-  innerHTML: fixInnerHTML
+  innerHTML: fixInnerHTML,
+  textContent: fixTextContent
 };
 var wrapper = {
   appendChild: wrapAppendChild,
@@ -169,6 +171,8 @@ function skateTemplateHtml () {
 
     if (frag.childNodes.length) {
       target.appendChild(frag);
+    } else {
+      content.init(target);
     }
 
     return target;

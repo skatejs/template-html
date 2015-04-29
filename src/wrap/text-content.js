@@ -2,19 +2,10 @@
 
 import call from '../util/call';
 import content from '../util/content';
+import fixTextContent from '../fix/text-content';
 
 export default {
-  get: function () {
-    var textContent = '';
-    var childNodes = this.childNodes;
-    var childNodesLength = this.childNodes.length;
-
-    for (let a = 0; a < childNodesLength; a++) {
-      textContent += childNodes[a].textContent;
-    }
-
-    return textContent;
-  },
+  get: fixTextContent.get,
   set: function (textContent) {
     var acceptsTextContent;
     var contentNodes = content.get(this);

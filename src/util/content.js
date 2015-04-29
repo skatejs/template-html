@@ -12,6 +12,13 @@ export default class {
     return this;
   }
 
+  static init (element) {
+    this.get(element).forEach(function (content) {
+      this.addDefault(content);
+    }.bind(this));
+    return this;
+  }
+
   static addDefault (content) {
     var nodes = content.defaultNodes;
     var nodesLen = nodes.length;
@@ -21,6 +28,7 @@ export default class {
     }
 
     content.isDefault = true;
+    return this;
   }
 
   static removeDefault (content) {
@@ -33,5 +41,6 @@ export default class {
     }
 
     content.isDefault = false;
+    return this;
   }
 }
