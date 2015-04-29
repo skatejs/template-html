@@ -14,7 +14,7 @@ __9a4ed6133544b918e78ae75e2532a19a = (function () {
         args[_key] = arguments[_key];
       }
   
-      return fn.apply(node, args);
+      return node && fn.apply(node, args);
     };
   };
   
@@ -59,6 +59,14 @@ __19ae81b353686d785b09cf84bda3c843 = (function () {
         return this;
       }
     }, {
+      key: 'init',
+      value: function init(element) {
+        this.get(element).forEach((function (content) {
+          this.addDefault(content);
+        }).bind(this));
+        return this;
+      }
+    }, {
       key: 'addDefault',
       value: function addDefault(content) {
         var nodes = content.defaultNodes;
@@ -69,6 +77,7 @@ __19ae81b353686d785b09cf84bda3c843 = (function () {
         }
   
         content.isDefault = true;
+        return this;
       }
     }, {
       key: 'removeDefault',
@@ -82,6 +91,7 @@ __19ae81b353686d785b09cf84bda3c843 = (function () {
         }
   
         content.isDefault = false;
+        return this;
       }
     }]);
   
@@ -154,7 +164,7 @@ __c41e208eb421052a6f8900284e102de7 = (function () {
   
   var _fragment = __d63a0d8055a792e36bedf197bb39b3a9;
   
-  var _fragment2 = _interopRequireDefault(_fragment);var elProtoInnerHTML = Object.getOwnPropertyDescriptor(window.Element.prototype, 'innerHTML');
+  var _fragment2 = _interopRequireDefault(_fragment);var elementInnerHTML = Object.getOwnPropertyDescriptor(window.Element.prototype, 'innerHTML');
   
   function htmlOf(node) {
     var attrs;
@@ -223,13 +233,58 @@ __c41e208eb421052a6f8900284e102de7 = (function () {
     // called to get built-in accessors so we've got to fully re-implement
     // innerHTML if we can't get an accessor for it.
     set: function set(html) {
-      if (elProtoInnerHTML) {
-        elProtoInnerHTML.set.call(this, html);
+      if (elementInnerHTML && elementInnerHTML.set) {
+        elementInnerHTML.set.call(this, html);
         return;
       }
   
       var frag = _fragment2['default'].fromString(html);
       this.appendChild(frag);
+    }
+  };
+  module.exports = exports['default'];
+  
+  return module.exports;
+}).call(this);
+
+// src/fix/text-content.js
+__72fdbb250a3ebf8d4efe6cb49abcedfb = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });var nodeTextContent = Object.getOwnPropertyDescriptor(window.Node.prototype, 'textContent');
+  
+  exports['default'] = {
+    // Fixed for same reason as innerHTML.
+    get: function get() {
+      var textContent = '';
+      var childNodes = this.childNodes;
+      var childNodesLength = this.childNodes.length;
+  
+      for (var a = 0; a < childNodesLength; a++) {
+        var childNode = childNodes[a];
+        var nodeType = childNode.nodeType;
+  
+        if (nodeType === 1 || nodeType === 3) {
+          textContent += childNode.textContent;
+        }
+      }
+  
+      return textContent;
+    },
+  
+    // Fixed for same reason as innerHTML.
+    set: function set(text) {
+      if (nodeTextContent && nodeTextContent.set) {
+        nodeTextContent.set.call(this, text);
+        return;
+      }
+  
+      this.appendChild(document.createTextNode(text));
     }
   };
   module.exports = exports['default'];
@@ -746,6 +801,10 @@ __1608906990ce448dd1b582b1e451d224 = (function () {
     value: true
   });
   
+  var _call = __9a4ed6133544b918e78ae75e2532a19a;
+  
+  var _call2 = _interopRequireDefault(_call);
+  
   var _content = __19ae81b353686d785b09cf84bda3c843;
   
   var _content2 = _interopRequireDefault(_content);exports['default'] = {
@@ -758,7 +817,7 @@ __1608906990ce448dd1b582b1e451d224 = (function () {
         var contentNode = contentNodes[a];
   
         if (contentNode.container === childNode.parentNode) {
-          contentNode.container.removeChild(childNode);
+          _call2['default'](contentNode.container, 'removeChild')(childNode);
           removed = true;
           break;
         }
@@ -793,6 +852,10 @@ __c15f6a7be82542ded22a90bc1807bbae = (function () {
     value: true
   });
   
+  var _call = __9a4ed6133544b918e78ae75e2532a19a;
+  
+  var _call2 = _interopRequireDefault(_call);
+  
   var _content = __19ae81b353686d785b09cf84bda3c843;
   
   var _content2 = _interopRequireDefault(_content);exports['default'] = {
@@ -804,7 +867,7 @@ __c15f6a7be82542ded22a90bc1807bbae = (function () {
         var contentNode = contentNodes[a];
   
         if (contentNode.container === oldChild.parentNode) {
-          contentNode.container.replaceChild(newChild, oldChild);
+          _call2['default'](contentNode.container, 'replaceChild')(newChild, oldChild);
           break;
         }
       }
@@ -830,20 +893,18 @@ __5d83602993d1bbdaad38b3476f1e8737 = (function () {
     value: true
   });
   
+  var _call = __9a4ed6133544b918e78ae75e2532a19a;
+  
+  var _call2 = _interopRequireDefault(_call);
+  
   var _content = __19ae81b353686d785b09cf84bda3c843;
   
-  var _content2 = _interopRequireDefault(_content);exports['default'] = {
-    get: function get() {
-      var textContent = '';
-      var childNodes = this.childNodes;
-      var childNodesLength = this.childNodes.length;
+  var _content2 = _interopRequireDefault(_content);
   
-      for (var a = 0; a < childNodesLength; a++) {
-        textContent += childNodes[a].textContent;
-      }
+  var _fixTextContent = __72fdbb250a3ebf8d4efe6cb49abcedfb;
   
-      return textContent;
-    },
+  var _fixTextContent2 = _interopRequireDefault(_fixTextContent);exports['default'] = {
+    get: _fixTextContent2['default'].get,
     set: function set(textContent) {
       var acceptsTextContent;
       var contentNodes = _content2['default'].get(this);
@@ -866,7 +927,7 @@ __5d83602993d1bbdaad38b3476f1e8737 = (function () {
       if (acceptsTextContent) {
         if (textContent) {
           _content2['default'].removeDefault(acceptsTextContent);
-          acceptsTextContent.container.insertBefore(document.createTextNode(textContent), acceptsTextContent.endNode);
+          _call2['default'](acceptsTextContent.container, 'insertBefore')(document.createTextNode(textContent), acceptsTextContent.endNode);
         } else {
           _content2['default'].addDefault(acceptsTextContent);
         }
@@ -889,6 +950,7 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
     "exports": exports,
     "./util/content": __19ae81b353686d785b09cf84bda3c843,
     "./fix/inner-html": __c41e208eb421052a6f8900284e102de7,
+    "./fix/text-content": __72fdbb250a3ebf8d4efe6cb49abcedfb,
     "./util/fragment": __d63a0d8055a792e36bedf197bb39b3a9,
     "./wrap/append-child": __0e3ab07e564369cb50c217a40c5153b9,
     "./wrap/child-nodes": __a47b51ebb809469e3e4f3e37b30c8679,
@@ -947,6 +1009,10 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   
   var _fixInnerHTML2 = _interopRequireDefault(_fixInnerHTML);
   
+  var _fixTextContent = __72fdbb250a3ebf8d4efe6cb49abcedfb;
+  
+  var _fixTextContent2 = _interopRequireDefault(_fixTextContent);
+  
   var _fragment = __d63a0d8055a792e36bedf197bb39b3a9;
   
   var _fragment2 = _interopRequireDefault(_fragment);
@@ -999,7 +1065,8 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   
   var _wrapTextContent2 = _interopRequireDefault(_wrapTextContent);var elProto = window.Element.prototype;
   var fixes = {
-    innerHTML: _fixInnerHTML2['default']
+    innerHTML: _fixInnerHTML2['default'],
+    textContent: _fixTextContent2['default']
   };
   var wrapper = {
     appendChild: _wrapAppendChild2['default'],
@@ -1145,6 +1212,8 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   
       if (frag.childNodes.length) {
         target.appendChild(frag);
+      } else {
+        _content2['default'].init(target);
       }
   
       return target;
