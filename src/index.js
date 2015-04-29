@@ -168,11 +168,10 @@ function skateTemplateHtml () {
     target.innerHTML = template;
     cacheContentData(target);
     skateTemplateHtml.wrap(target);
+    content.init(target);
 
     if (frag.childNodes.length) {
       target.appendChild(frag);
-    } else {
-      content.init(target);
     }
 
     return target;

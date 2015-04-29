@@ -27,6 +27,12 @@ describe('content:', function () {
     expect(unwrap().textContent).to.equal('default');
   });
 
+  it('default values (with other content)', function () {
+    el.innerHTML = '<one>def</one><two>ect</two>';
+    template(`<content select="one"></content><content select="three">ault</content>`)(el);
+    expect(unwrap().textContent).to.equal('default');
+  });
+
   it('user values - text', function () {
     el.textContent = 'custom';
     template(`<content>default</content>`)(el);
