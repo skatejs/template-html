@@ -8,13 +8,13 @@ __9a4ed6133544b918e78ae75e2532a19a = (function () {
   Object.defineProperty(exports, '__esModule', {
     value: true
   });exports['default'] = function (node, fn) {
-    fn = node['__' + fn] || node[fn];
+    fn = node && node['__' + fn] || node[fn];
     return function () {
       for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
         args[_key] = arguments[_key];
       }
   
-      return node && fn.apply(node, args);
+      return fn && fn.apply(node, args);
     };
   };
   
