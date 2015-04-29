@@ -149,24 +149,17 @@ __d63a0d8055a792e36bedf197bb39b3a9 = (function () {
   return module.exports;
 }).call(this);
 
-// src/fix/inner-html.js
-__c41e208eb421052a6f8900284e102de7 = (function () {
+// src/util/html-of.js
+__f096680b7aa20852d5521fc36259a043 = (function () {
   var module = {
     exports: {}
   };
   var exports = module.exports;
   
-  var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
-  
   Object.defineProperty(exports, '__esModule', {
     value: true
   });
-  
-  var _fragment = __d63a0d8055a792e36bedf197bb39b3a9;
-  
-  var _fragment2 = _interopRequireDefault(_fragment);var elementInnerHTML = Object.getOwnPropertyDescriptor(window.Element.prototype, 'innerHTML');
-  
-  function htmlOf(node) {
+  exports['default'] = htmlOf;function htmlOf(node) {
     var attrs;
     var attrsLen;
     var childNodes;
@@ -211,6 +204,32 @@ __c41e208eb421052a6f8900284e102de7 = (function () {
     return html;
   }
   
+  module.exports = exports['default'];
+  
+  return module.exports;
+}).call(this);
+
+// src/fix/inner-html.js
+__c41e208eb421052a6f8900284e102de7 = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
+  
+  Object.defineProperty(exports, '__esModule', {
+    value: true
+  });
+  
+  var _fragment = __d63a0d8055a792e36bedf197bb39b3a9;
+  
+  var _fragment2 = _interopRequireDefault(_fragment);
+  
+  var _htmlOf = __f096680b7aa20852d5521fc36259a043;
+  
+  var _htmlOf2 = _interopRequireDefault(_htmlOf);var elementInnerHTML = Object.getOwnPropertyDescriptor(window.Element.prototype, 'innerHTML');
+  
   exports['default'] = {
     // Chrome doesn't report innerHTML properly using the original getter once
     // it's been overridden. This ensures that it uses the proper means to do so.
@@ -223,7 +242,7 @@ __c41e208eb421052a6f8900284e102de7 = (function () {
   
       for (var a = 0; a < childNodesLen; a++) {
         var childNode = childNodes[a];
-        html += htmlOf(childNode);
+        html += _htmlOf2['default'](childNode);
       }
   
       return html;
@@ -437,6 +456,10 @@ __a47b51ebb809469e3e4f3e37b30c8679 = (function () {
       var contentNodes = _content2['default'].get(this);
       var contentNodesLen = contentNodes.length;
       var nodes = [];
+  
+      if (!contentNodesLen) {
+        return this.__childNodes;
+      }
   
       for (var a = 0; a < contentNodesLen; a++) {
         var contentNode = contentNodes[a];
