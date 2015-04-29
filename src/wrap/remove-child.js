@@ -1,5 +1,6 @@
 'use strict';
 
+import call from '../util/call';
 import content from '../util/content';
 
 export default {
@@ -12,7 +13,7 @@ export default {
       let contentNode = contentNodes[a];
 
       if (contentNode.container === childNode.parentNode) {
-        contentNode.container.removeChild(childNode);
+        call(contentNode.container, 'removeChild')(childNode);
         removed = true;
         break;
       }

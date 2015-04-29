@@ -1,5 +1,6 @@
 'use strict';
 
+import call from '../util/call';
 import content from '../util/content';
 
 export default {
@@ -36,7 +37,7 @@ export default {
     if (acceptsTextContent) {
       if (textContent) {
         content.removeDefault(acceptsTextContent);
-        acceptsTextContent.container.insertBefore(document.createTextNode(textContent), acceptsTextContent.endNode);
+        call(acceptsTextContent.container, 'insertBefore')(document.createTextNode(textContent), acceptsTextContent.endNode);
       } else {
         content.addDefault(acceptsTextContent);
       }
