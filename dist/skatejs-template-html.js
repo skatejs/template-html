@@ -1209,11 +1209,10 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
       target.innerHTML = template;
       cacheContentData(target);
       skateTemplateHtml.wrap(target);
+      _content2['default'].init(target);
   
       if (frag.childNodes.length) {
         target.appendChild(frag);
-      } else {
-        _content2['default'].init(target);
       }
   
       return target;
