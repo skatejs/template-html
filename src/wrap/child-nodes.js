@@ -9,6 +9,10 @@ export default {
     var contentNodesLen = contentNodes.length;
     var nodes = [];
 
+    if (!contentNodesLen) {
+      return this.__childNodes;
+    }
+
     for (var a = 0; a < contentNodesLen; a++) {
       let contentNode = contentNodes[a];
 
