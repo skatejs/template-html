@@ -16,7 +16,7 @@ export default class {
     var nodes = content.defaultNodes;
     var nodesLen = nodes.length;
 
-    for (var a = 0; a < nodesLen; a++) {
+    for (let a = 0; a < nodesLen; a++) {
       call(content.container, 'insertBefore')(nodes[a], content.endNode);
     }
 
@@ -28,7 +28,7 @@ export default class {
     var nodesLen = nodes.length;
 
     for (var a = 0; a < nodesLen; a++) {
-      var node = nodes[a];
+      let node = nodes[a];
       call(node.parentNode, 'removeChild')(node);
     }
 
