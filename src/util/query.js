@@ -1,12 +1,12 @@
 'use strict';
 
-var elProto = window.HTMLElement.prototype;
+var elementProto = window.HTMLElement.prototype;
 var matchesSelector = (
-  elProto.matches ||
-  elProto.msMatchesSelector ||
-  elProto.webkitMatchesSelector ||
-  elProto.mozMatchesSelector ||
-  elProto.oMatchesSelector
+  elementProto.matches ||
+  elementProto.msMatchesSelector ||
+  elementProto.webkitMatchesSelector ||
+  elementProto.mozMatchesSelector ||
+  elementProto.oMatchesSelector
 );
 
 export default {

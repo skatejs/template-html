@@ -8,14 +8,6 @@ function tmp (str) {
   return template(str)(el);
 }
 
-function unwrap () {
-  return template.unwrap(el);
-}
-
-function wrap () {
-  return template.wrap(el);
-}
-
 beforeEach(function () {
   el = document.createElement('div');
   document.body.appendChild(el);
@@ -24,43 +16,40 @@ beforeEach(function () {
 describe('Templates', function () {
   it('should retain template element order', function () {
     tmp('<one></one><two></two><three></three>');
-    unwrap();
-    el.innerHTML.should.equal('<one></one><two></two><three></three>');
+    expect(el.innerHTML).to.equal('');
+    expect(el.__element.innerHTML).to.equal('<one></one><two></two><three></three>');
   });
 
   it('should allow a function that is assumed that it will do the templating', function () {
     tmp('my template');
-    unwrap();
-    el.innerHTML.should.equal('my template');
+    expect(el.innerHTML).to.equal('');
+    expect(el.__element.innerHTML).to.equal('my template');
   });
 
   it('should select all content from the inital html', function () {
     el.innerHTML = '<span>1</span><span>2</span>';
     tmp('<span><content></content></span>');
-    unwrap();
-    expect(el.children[0].children[0].textContent).to.equal('1');
-    expect(el.children[0].children[1].textContent).to.equal('2');
+    expect(el.__element.children[0].children[0].textContent).to.equal('1');
+    expect(el.__element.children[0].children[1].textContent).to.equal('2');
   });
 
   it('should select specific content from the inital html', function () {
     el.innerHTML = '<span>one</span><span>two</span>';
     tmp('<span><content select="span"></content></span>');
-    unwrap();
-    expect(el.children[0].children[0].textContent).to.equal('one');
-    expect(el.children[0].children[1].textContent).to.equal('two');
+    expect(el.__element.children[0].children[0].textContent).to.equal('one');
+    expect(el.__element.children[0].children[1].textContent).to.equal('two');
   });
 
   it('should only allow first children of the main element to be selected by the content element', function () {
     el.innerHTML = '<some><descendant></descendant></some>';
     tmp('<span><content select="some descendant"></content></span>');
-    unwrap();
-    expect(el.children[0].children.length).to.equal(0);
+    expect(el.__element.children[0].children.length).to.equal(0);
   });
 
   it('should ignore non-element nodes', function () {
     el.innerHTML = '<span>one</span>\n<span>two</span>non-element-node';
     tmp('<span><content select="span"></content></span>');
-    expect(el.innerHTML).to.not.contain('non-element-node');
+    expect(el.innerHTML).to.equal('<span>one</span><span>two</span>');
   });
 
   describe('default content', function () {
@@ -97,7 +86,7 @@ describe('Templates', function () {
     });
   });
 
-  describe('wrapper methods', function () {
+  describe('wrapper members', function () {
     beforeEach(function () {
       el.innerHTML = '<one></one><two></two>';
       tmp(
@@ -129,23 +118,23 @@ describe('Templates', function () {
 
     it('should insert the element at the correct index in the light DOM: 0', function () {
       el.insertBefore(document.createElement('three'), el.childNodes[0]);
-      expect(el.children[0]).to.equal(el.__children[0].children[0]);
-      expect(el.children[1]).to.equal(el.__children[1].children[0]);
-      expect(el.children[2]).to.equal(el.__children[1].children[1]);
+      expect(el.children[0]).to.equal(el.__element.children[0].children[0].__wrapper);
+      expect(el.children[1]).to.equal(el.__element.children[1].children[0].__wrapper);
+      expect(el.children[2]).to.equal(el.__element.children[1].children[1].__wrapper);
     });
 
     it('should insert the element at the correct index in the light DOM: 1', function () {
       el.insertBefore(document.createElement('three'), el.childNodes[1]);
-      expect(el.children[0]).to.equal(el.__children[0].children[0]);
-      expect(el.children[1]).to.equal(el.__children[1].children[0]);
-      expect(el.children[2]).to.equal(el.__children[1].children[1]);
+      expect(el.children[0]).to.equal(el.__element.children[0].children[0].__wrapper);
+      expect(el.children[1]).to.equal(el.__element.children[1].children[0].__wrapper);
+      expect(el.children[2]).to.equal(el.__element.children[1].children[1].__wrapper);
     });
 
     it('should insert the element at the correct index in the light DOM: 2', function () {
       el.insertBefore(document.createElement('three'), el.childNodes[1]);
-      expect(el.children[0]).to.equal(el.__children[0].children[0]);
-      expect(el.children[1]).to.equal(el.__children[1].children[0]);
-      expect(el.children[2]).to.equal(el.__children[1].children[1]);
+      expect(el.children[0]).to.equal(el.__element.children[0].children[0].__wrapper);
+      expect(el.children[1]).to.equal(el.__element.children[1].children[0].__wrapper);
+      expect(el.children[2]).to.equal(el.__element.children[1].children[1].__wrapper);
     });
 
     it('should throw an error if inserting before a node that does not exist', function () {
@@ -238,7 +227,7 @@ describe('Parsing HTML input for placeholders', function () {
   it('should detect where to project content to from HTML input', function () {
     var div = document.createElement('div');
     div.innerHTML = '<!-- content { "selector": "h1" } --><!-- /content --><div><!-- content --><!-- /content --></div>';
-    template.wrap(div)
+    template.wrap(div, true);
     div.innerHTML = '<h1>Heading</h1><span>1</span><a>2</a>';
     template.unwrap(div);
     expect(div.innerHTML).to.equal('<!-- content { "selector": "h1" } --><h1>Heading</h1><!-- /content --><div><!-- content --><span>1</span><a>2</a><!-- /content --></div>');

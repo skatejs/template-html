@@ -1,41 +1,43 @@
 'use strict';
 
-import call from '../util/call';
 import content from '../util/content';
+import decide from '../util/decide';
+import readonly from '../util/readonly';
 
 export default {
-  value: function (childNode) {
-    var contentNodes = content.get(this);
-    var contentNodesLen = contentNodes.length;
-    var removed = false;
+  value: decide(
+    function (data) {
+      var childNode = data.args[0].__element;
+      var contentNodes = content.get(this);
+      var contentNodesLen = contentNodes.length;
+      var removed = false;
 
-    alert('called');
+      for (let a = 0; a < contentNodesLen; a++) {
+        let contentNode = contentNodes[a];
 
-    if (!contentNodesLen) {
-      return this.__removeChild(childNode);
-    }
+        if (contentNode.container === childNode.parentNode) {
+          contentNode.container.removeChild(childNode);
+          removed = true;
+        }
 
-    for (let a = 0; a < contentNodesLen; a++) {
-      let contentNode = contentNodes[a];
+        if (contentNode.startNode.nextSibling === contentNode.endNode) {
+          content.addDefault(contentNode);
+        }
 
-      if (contentNode.container === childNode.parentNode) {
-        call(contentNode.container, 'removeChild')(childNode);
-        removed = true;
+        if (removed) {
+          break;
+        }
       }
 
-      if (contentNode.startNode.nextSibling === contentNode.endNode) {
-        content.addDefault(contentNode);
+      if (!removed) {
+        throw new Error('DOMException 8: The node in which you are trying to remove is not a child of this node.');
       }
 
-      if (removed) {
-        break;
-      }
-    }
+      return childNode;
+    },
 
-    if (!removed) {
-      throw new Error('DOMException 8: The node in which you are trying to remove is not a child of this node.');
+    function (data) {
+      return this.__element.removeChild(data.args[0]);
     }
-
-    return childNode;
-  }
+  )
 };

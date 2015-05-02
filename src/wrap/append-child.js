@@ -1,39 +1,42 @@
 'use strict';
 
-import call from '../util/call';
 import content from '../util/content';
-import find from '../util/find';
+import decide from '../util/decide';
 
 export default {
-  value: function (node) {
-    var contentNodes = content.get(this);
-    var contentNodesLen = contentNodes.length;
+  value: decide(
+    function (data) {
+      var contentNodes = data.content;
+      var contentNodesLen = contentNodes.length;
+      var node = data.args[0];
+      var that = this;
 
-    if (!contentNodesLen) {
-      return this.__appendChild(node);
-    }
+      if (node instanceof window.DocumentFragment) {
+        let fragChildNodes = node.childNodes;
 
-    if (node instanceof window.DocumentFragment) {
-      let fragChildNodes = node.childNodes;
+        [].slice.call(fragChildNodes).forEach(function (node) {
+          that.appendChild(node);
+        });
 
-      [].slice.call(fragChildNodes).forEach(function (node) {
-        this.appendChild(node);
-      }.bind(this));
+        return this;
+      }
+
+      for (let b = 0; b < contentNodesLen; b++) {
+        let contentNode = contentNodes[b];
+        let selector = contentNode.selector;
+
+        if (!selector || node.__wrapper.matches(selector)) {
+          content.removeDefault(contentNode);
+          contentNode.endNode.parentNode.insertBefore(node, contentNode.endNode);
+          break;
+        }
+      }
 
       return this;
+    },
+
+    function (data) {
+      return data.node.appendChild(data.args[0]);
     }
-
-    for (let b = 0; b < contentNodesLen; b++) {
-      let contentNode = contentNodes[b];
-      let selector = contentNode.selector;
-
-      if (!selector || find.matches(node, selector)) {
-        content.removeDefault(contentNode);
-        call(contentNode.endNode.parentNode, 'insertBefore')(node, contentNode.endNode);
-        break;
-      }
-    }
-
-    return this;
-  }
+  )
 };

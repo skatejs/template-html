@@ -4,8 +4,15 @@ export default {
   fromNodeList: function (nodeList) {
     var frag = document.createDocumentFragment();
 
-    while (nodeList && nodeList.length) {
-      frag.appendChild(nodeList[0]);
+    if (Array.isArray(nodeList)) {
+      let nodeListLength = nodeList.length;
+      for (let a = 0; a < nodeListLength; a++) {
+        frag.appendChild(nodeList[a]);
+      }
+    } else {
+      while (nodeList && nodeList.length) {
+        frag.appendChild(nodeList[0]);
+      }
     }
 
     return frag;
@@ -24,7 +31,7 @@ export default {
     };
 
     var tag = domString.match(/\s*<([^\s>]+)/);
-    var div = document.createElement(tag && specialMap[tag[1]] || 'div');
+    var div = document.createElement(tag && specialMap[tag[1]] || 'div').__element;
 
     div.innerHTML = domString;
 

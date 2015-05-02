@@ -2,6 +2,6 @@
 
 export default {
   get: function () {
-    return this.childNodes[0];
+    return this.__element.parentNode.__wrapper;
   }
 };

@@ -1,28 +1,28 @@
 'use strict';
 
-import content from '../util/content';
-import find from '../util/find';
+import decide from '../util/decide';
+import query from '../util/query'
 
 export default {
-  get: function () {
-    var contentNodes = content.get(this);
-    var contentNodesLen = contentNodes.length;
-    var nodes = [];
+  get: decide(
+    function (data) {
+      return data.content.reduce(function (prev, curr) {
+        return prev.concat(curr.isDefault ? [] : query.between(curr.startNode, curr.endNode).map(function (node) {
+          return node.__wrapper;
+        }));
+      }, []);
+    },
 
-    if (!contentNodesLen) {
-      return this.__childNodes;
-    }
+    function (opts) {
+      var nodes = [];
+      var chNodes = opts.node.childNodes;
+      var chNodesLen = chNodes.length;
 
-    for (var a = 0; a < contentNodesLen; a++) {
-      let contentNode = contentNodes[a];
-
-      if (contentNode.isDefault) {
-        continue;
+      for (let a = 0; a < chNodesLen; a++) {
+        nodes.push(chNodes[a].__wrapper);
       }
 
-      nodes = nodes.concat(find.between(contentNode.startNode, contentNode.endNode));
+      return nodes;
     }
-
-    return nodes;
-  }
+  )
 };

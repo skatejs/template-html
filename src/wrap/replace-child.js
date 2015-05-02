@@ -1,6 +1,5 @@
 'use strict';
 
-import call from '../util/call';
 import content from '../util/content';
 
 export default {
@@ -12,7 +11,7 @@ export default {
       let contentNode = contentNodes[a];
 
       if (contentNode.container === oldChild.parentNode) {
-        call(contentNode.container, 'replaceChild')(newChild, oldChild);
+        contentNode.container.replaceChild(newChild, oldChild);
         break;
       }
     }

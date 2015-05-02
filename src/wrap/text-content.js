@@ -1,12 +1,18 @@
 'use strict';
 
-import call from '../util/call';
 import content from '../util/content';
-import fixTextContent from '../fix/text-content';
+import wrapped from '../api/wrapped';
 
 export default {
-  get: fixTextContent.get,
+  get: function () {
+    return this.__element.textContent;
+  },
+
   set: function (textContent) {
+    if (!wrapped(this)) {
+      return this.__element.textContent = textContent;
+    }
+
     var acceptsTextContent;
     var contentNodes = content.get(this);
     var contentNodesLen = contentNodes.length;
@@ -28,7 +34,7 @@ export default {
     if (acceptsTextContent) {
       if (textContent) {
         content.removeDefault(acceptsTextContent);
-        call(acceptsTextContent.container, 'insertBefore')(document.createTextNode(textContent), acceptsTextContent.endNode);
+        acceptsTextContent.container.insertBefore(document.createTextNode(textContent), acceptsTextContent.endNode);
       } else {
         content.addDefault(acceptsTextContent);
       }

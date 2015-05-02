@@ -1,5 +1,24 @@
 'use strict';
 
+var voidElements = [
+  'area',
+  'base',
+  'br',
+  'col',
+  'command',
+  'embed',
+  'hr',
+  'img',
+  'input',
+  'keygen',
+  'link',
+  'meta',
+  'param',
+  'source',
+  'track',
+  'wbr'
+];
+
 export default function htmlOf (node) {
   var attrs;
   var attrsLen;
@@ -35,12 +54,14 @@ export default function htmlOf (node) {
 
   html += '>';
 
-  for (let a = 0; a < childNodesLen; a++) {
-    let childNode = childNodes[a];
-    html += htmlOf(childNode);
-  }
+  if (voidElements.indexOf(tagName) === -1) {
+    for (let a = 0; a < childNodesLen; a++) {
+      let childNode = childNodes[a];
+      html += htmlOf(childNode);
+    }
 
-  html += `</${tagName}>`;
+    html += `</${tagName}>`;
+  }
 
   return html;
 }
