@@ -1,5 +1,3 @@
-'use strict';
-
 export default {
   fromNodeList: function (nodeList) {
     var frag = document.createDocumentFragment();

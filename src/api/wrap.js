@@ -1,5 +1,3 @@
-'use strict';
-
 import content from '../util/content';
 
 export default function (node) {

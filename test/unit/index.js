@@ -1,5 +1,3 @@
-'use strict';
-
 import template from '../../src/index';
 
 var el;

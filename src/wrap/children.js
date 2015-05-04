@@ -1,5 +1,3 @@
-'use strict';
-
 export default {
   get: function () {
     return this.childNodes.filter(function (node) {

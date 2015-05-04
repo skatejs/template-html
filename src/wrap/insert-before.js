@@ -1,5 +1,3 @@
-'use strict';
-
 import content from '../util/content';
 import query from '../util/query';
 

@@ -1,5 +1,3 @@
-'use strict';
-
 import apiUnwrap from './api/unwrap';
 import apiWrap from './api/wrap';
 import apiWrapped from './api/wrapped';

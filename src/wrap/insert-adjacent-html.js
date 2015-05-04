@@ -1,5 +1,3 @@
-'use strict';
-
 import fragment from '../util/fragment';
 
 export default {

@@ -1,5 +1,3 @@
-'use strict';
-
 import htmlOf from '../util/html-of';
 
 export default {

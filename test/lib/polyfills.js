@@ -1,6 +1,4 @@
 (function() {
-  'use strict';
-
   var HTMLElement = window.HTMLElement;
   var MutationObserver = window.MutationObserver;
 

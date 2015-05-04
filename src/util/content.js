@@ -1,5 +1,3 @@
-'use strict';
-
 import fragment from './fragment';
 
 function parseCommentNode (node) {

@@ -1,5 +1,3 @@
-'use strict';
-
 var elementProto = window.HTMLElement.prototype;
 var matchesSelector = (
   elementProto.matches ||

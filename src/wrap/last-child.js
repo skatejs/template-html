@@ -1,5 +1,3 @@
-'use strict';
-
 export default {
   get: function () {
     var childNodes = this.childNodes;

@@ -1,5 +1,3 @@
-'use strict';
-
 var FIXTURE_ID = 'fixture';
 var FIXTURE_ELEMENT = 'div';
 
