@@ -343,6 +343,29 @@ __125890a9273e80bd87d26767cffe1164 = (function () {
   return module.exports;
 }).call(this);
 
+// src/wrap/matches.js
+__a44fc57d305290b7e86ae8fef3fb8e5c = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var elementProto = window.HTMLElement.prototype;
+  var matchesSelector = elementProto.matches || elementProto.msMatchesSelector || elementProto.webkitMatchesSelector || elementProto.mozMatchesSelector || elementProto.oMatchesSelector;
+  
+  exports["default"] = {
+    value: function value(selector) {
+      return this.nodeType === 1 && matchesSelector.call(this.__node, selector);
+    }
+  };
+  module.exports = exports["default"];
+  
+  return module.exports;
+}).call(this);
+
 // src/wrap/append-child.js
 __0e3ab07e564369cb50c217a40c5153b9 = (function () {
   var module = {
@@ -359,6 +382,10 @@ __0e3ab07e564369cb50c217a40c5153b9 = (function () {
   var _content = __19ae81b353686d785b09cf84bda3c843;
   
   var _content2 = _interopRequireDefault(_content);
+  
+  var _matches = __a44fc57d305290b7e86ae8fef3fb8e5c;
+  
+  var _matches2 = _interopRequireDefault(_matches);
   
   exports['default'] = {
     value: function value(node) {
@@ -384,7 +411,7 @@ __0e3ab07e564369cb50c217a40c5153b9 = (function () {
         var contentNode = contentNodes[b];
         var selector = contentNode.selector;
   
-        if (!selector || node.__wrapper.matches(selector)) {
+        if (!selector || _matches2['default'].value.call(node, selector)) {
           _content2['default'].removeDefault(contentNode);
           contentNode.endNode.parentNode.insertBefore(node, contentNode.endNode);
           break;
@@ -395,6 +422,26 @@ __0e3ab07e564369cb50c217a40c5153b9 = (function () {
     }
   };
   module.exports = exports['default'];
+  
+  return module.exports;
+}).call(this);
+
+// src/wrap/child-element-count.js
+__96e49b90c0805b36526c17fcb3ab71f1 = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports["default"] = {
+    get: function get() {
+      return this.children.length;
+    }
+  };
+  module.exports = exports["default"];
   
   return module.exports;
 }).call(this);
@@ -537,6 +584,126 @@ __ded42f60d281914c4dbaf7d9b268e729 = (function () {
   return module.exports;
 }).call(this);
 
+// src/wrap/closest.js
+__cd14c5982fee4d4fcb11fdb4a733f971 = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports["default"] = {
+    value: function value(selector) {
+      return this.__node.closest(selector);
+    }
+  };
+  module.exports = exports["default"];
+  
+  return module.exports;
+}).call(this);
+
+// src/wrap/compare-document-position.js
+__ba14f52809b57d952b1fe36410d22c0e = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports["default"] = {
+    get: function get(otherNode) {
+      return this.__node.compareDocumentPosition(otherNode);
+    }
+  };
+  module.exports = exports["default"];
+  
+  return module.exports;
+}).call(this);
+
+// src/wrap/contains.js
+__46e2c45db43e13a8df035d453a252cf7 = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports["default"] = {
+    value: function value(node) {
+      return this.__node.contains(node);
+    }
+  };
+  module.exports = exports["default"];
+  
+  return module.exports;
+}).call(this);
+
+// src/wrap/first-child.js
+__53deeeb529258e755449195071912bf8 = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports["default"] = {
+    get: function get() {
+      return this.childNodes[0];
+    }
+  };
+  module.exports = exports["default"];
+  
+  return module.exports;
+}).call(this);
+
+// src/wrap/first-element-child.js
+__299702580fa2d6125eac5d060e97194c = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports["default"] = {
+    get: function get() {
+      return this.children[0];
+    }
+  };
+  module.exports = exports["default"];
+  
+  return module.exports;
+}).call(this);
+
+// src/wrap/get-elements-by-class-name.js
+__b638397d9d7985fd6a77966603a954da = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports["default"] = {
+    value: function value(className) {
+      return this.__node.getElementsByClassName(className);
+    }
+  };
+  module.exports = exports["default"];
+  
+  return module.exports;
+}).call(this);
+
 // src/wrap/get-elements-by-tag-name.js
 __0aba65d9734ef3ff590bbd491fea85f8 = (function () {
   var module = {
@@ -550,6 +717,26 @@ __0aba65d9734ef3ff590bbd491fea85f8 = (function () {
   exports["default"] = {
     value: function value(tagName) {
       return this.__node.getElementsByTagName(tagName);
+    }
+  };
+  module.exports = exports["default"];
+  
+  return module.exports;
+}).call(this);
+
+// src/wrap/has-child-nodes.js
+__2ca8600ba29192bd13aeb322bc3d6c5e = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports["default"] = {
+    value: function value() {
+      return this.childNodes.length > 0;
     }
   };
   module.exports = exports["default"];
@@ -699,6 +886,10 @@ __d25c541b4b60e1c1fac0d397e97f283a = (function () {
   
   var _content2 = _interopRequireDefault(_content);
   
+  var _matches = __a44fc57d305290b7e86ae8fef3fb8e5c;
+  
+  var _matches2 = _interopRequireDefault(_matches);
+  
   var _query = __da5044b769c20eb875606fc21a2002b2;
   
   var _query2 = _interopRequireDefault(_query);
@@ -751,7 +942,7 @@ __d25c541b4b60e1c1fac0d397e97f283a = (function () {
   
         if (hasFoundReferenceNode) {
           var selector = contentNode.selector;
-          if (!selector || node.__wrapper.matches(selector)) {
+          if (!selector || _matches2['default'].value.call(node, selector)) {
             betweenNode.parentNode.insertBefore(node, betweenNode);
             break mainLoop;
           }
@@ -783,26 +974,6 @@ __d25c541b4b60e1c1fac0d397e97f283a = (function () {
   return module.exports;
 }).call(this);
 
-// src/wrap/first-child.js
-__53deeeb529258e755449195071912bf8 = (function () {
-  var module = {
-    exports: {}
-  };
-  var exports = module.exports;
-  
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports["default"] = {
-    get: function get() {
-      return this.childNodes[0];
-    }
-  };
-  module.exports = exports["default"];
-  
-  return module.exports;
-}).call(this);
-
 // src/wrap/last-child.js
 __a49769da5b63824d5560db509487733c = (function () {
   var module = {
@@ -824,8 +995,8 @@ __a49769da5b63824d5560db509487733c = (function () {
   return module.exports;
 }).call(this);
 
-// src/wrap/matches.js
-__a44fc57d305290b7e86ae8fef3fb8e5c = (function () {
+// src/wrap/last-element-child.js
+__56c2d8ca9a87bd59659eca3faf52ba4b = (function () {
   var module = {
     exports: {}
   };
@@ -834,12 +1005,30 @@ __a44fc57d305290b7e86ae8fef3fb8e5c = (function () {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var elementProto = window.HTMLElement.prototype;
-  var matchesSelector = elementProto.matches || elementProto.msMatchesSelector || elementProto.webkitMatchesSelector || elementProto.mozMatchesSelector || elementProto.oMatchesSelector;
-  
   exports["default"] = {
-    value: function value(selector) {
-      return this.nodeType === 1 && matchesSelector.call(this.__node, selector);
+    get: function get() {
+      var len = this.children.length;
+      return this.children[len - 1];
+    }
+  };
+  module.exports = exports["default"];
+  
+  return module.exports;
+}).call(this);
+
+// src/wrap/next-element-sibling.js
+__f872e4edd21742fdd797eeb9c1d3e5ae = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports["default"] = {
+    get: function get() {
+      return this.__node.nextElementSibling;
     }
   };
   module.exports = exports["default"];
@@ -963,6 +1152,26 @@ __ed5315016b175d6bb3df88a23c1618f7 = (function () {
   return module.exports;
 }).call(this);
 
+// src/wrap/parent-element.js
+__53e9d8516c6923e0fc61af25a6059301 = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports["default"] = {
+    get: function get() {
+      return this.__node.parentElement.__wrapper;
+    }
+  };
+  module.exports = exports["default"];
+  
+  return module.exports;
+}).call(this);
+
 // src/wrap/parent-node.js
 __cfc5a9b45cdf9244c9692497bad0787e = (function () {
   var module = {
@@ -983,6 +1192,26 @@ __cfc5a9b45cdf9244c9692497bad0787e = (function () {
   return module.exports;
 }).call(this);
 
+// src/wrap/previous-element-sibling.js
+__d94159d68f1f90e4ee273bbd12a27277 = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports["default"] = {
+    get: function get() {
+      return this.__node.previousElementSibling;
+    }
+  };
+  module.exports = exports["default"];
+  
+  return module.exports;
+}).call(this);
+
 // src/wrap/previous-sibling.js
 __904b6ca435cee850b847541458004909 = (function () {
   var module = {
@@ -996,6 +1225,46 @@ __904b6ca435cee850b847541458004909 = (function () {
   exports["default"] = {
     get: function get() {
       return this.__node.previousSibling;
+    }
+  };
+  module.exports = exports["default"];
+  
+  return module.exports;
+}).call(this);
+
+// src/wrap/query-selector.js
+__7dc6e96b3bafe82e43f739c8c3eaed23 = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports["default"] = {
+    value: function value(selector) {
+      return this.__node.querySelector(selector);
+    }
+  };
+  module.exports = exports["default"];
+  
+  return module.exports;
+}).call(this);
+
+// src/wrap/query-selector-all.js
+__8b7d2a79c4c7639c9dc14bae0dd443d6 = (function () {
+  var module = {
+    exports: {}
+  };
+  var exports = module.exports;
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports["default"] = {
+    value: function value(selector) {
+      return this.__node.querySelectorAll(selector);
     }
   };
   module.exports = exports["default"];
@@ -1222,6 +1491,10 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   
   var _wrapAppendChild2 = _interopRequireDefault(_wrapAppendChild);
   
+  var _wrapChildElementCount = __96e49b90c0805b36526c17fcb3ab71f1;
+  
+  var _wrapChildElementCount2 = _interopRequireDefault(_wrapChildElementCount);
+  
   var _wrapChildNodes = __a47b51ebb809469e3e4f3e37b30c8679;
   
   var _wrapChildNodes2 = _interopRequireDefault(_wrapChildNodes);
@@ -1230,9 +1503,37 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   
   var _wrapChildren2 = _interopRequireDefault(_wrapChildren);
   
+  var _wrapClosest = __cd14c5982fee4d4fcb11fdb4a733f971;
+  
+  var _wrapClosest2 = _interopRequireDefault(_wrapClosest);
+  
+  var _wrapCompareDocumentPosition = __ba14f52809b57d952b1fe36410d22c0e;
+  
+  var _wrapCompareDocumentPosition2 = _interopRequireDefault(_wrapCompareDocumentPosition);
+  
+  var _wrapContains = __46e2c45db43e13a8df035d453a252cf7;
+  
+  var _wrapContains2 = _interopRequireDefault(_wrapContains);
+  
+  var _wrapFirstChild = __53deeeb529258e755449195071912bf8;
+  
+  var _wrapFirstChild2 = _interopRequireDefault(_wrapFirstChild);
+  
+  var _wrapFirstElementChild = __299702580fa2d6125eac5d060e97194c;
+  
+  var _wrapFirstElementChild2 = _interopRequireDefault(_wrapFirstElementChild);
+  
+  var _wrapGetElementsByClassName = __b638397d9d7985fd6a77966603a954da;
+  
+  var _wrapGetElementsByClassName2 = _interopRequireDefault(_wrapGetElementsByClassName);
+  
   var _wrapGetElementsByTagName = __0aba65d9734ef3ff590bbd491fea85f8;
   
   var _wrapGetElementsByTagName2 = _interopRequireDefault(_wrapGetElementsByTagName);
+  
+  var _wrapHasChildNodes = __2ca8600ba29192bd13aeb322bc3d6c5e;
+  
+  var _wrapHasChildNodes2 = _interopRequireDefault(_wrapHasChildNodes);
   
   var _wrapInnerHTML = __221f2303ac1c3e63084bc2f7a59450f3;
   
@@ -1246,17 +1547,21 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   
   var _wrapInsertBefore2 = _interopRequireDefault(_wrapInsertBefore);
   
-  var _wrapFirstChild = __53deeeb529258e755449195071912bf8;
-  
-  var _wrapFirstChild2 = _interopRequireDefault(_wrapFirstChild);
-  
   var _wrapLastChild = __a49769da5b63824d5560db509487733c;
   
   var _wrapLastChild2 = _interopRequireDefault(_wrapLastChild);
   
+  var _wrapLastElementChild = __56c2d8ca9a87bd59659eca3faf52ba4b;
+  
+  var _wrapLastElementChild2 = _interopRequireDefault(_wrapLastElementChild);
+  
   var _wrapMatches = __a44fc57d305290b7e86ae8fef3fb8e5c;
   
   var _wrapMatches2 = _interopRequireDefault(_wrapMatches);
+  
+  var _wrapNextElementSibling = __f872e4edd21742fdd797eeb9c1d3e5ae;
+  
+  var _wrapNextElementSibling2 = _interopRequireDefault(_wrapNextElementSibling);
   
   var _wrapNextSibling = __5b5cbbda435ceecde2e873d0e2809940;
   
@@ -1266,13 +1571,29 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   
   var _wrapOuterHTML2 = _interopRequireDefault(_wrapOuterHTML);
   
+  var _wrapParentElement = __53e9d8516c6923e0fc61af25a6059301;
+  
+  var _wrapParentElement2 = _interopRequireDefault(_wrapParentElement);
+  
   var _wrapParentNode = __cfc5a9b45cdf9244c9692497bad0787e;
   
   var _wrapParentNode2 = _interopRequireDefault(_wrapParentNode);
   
+  var _wrapPreviousElementSibling = __d94159d68f1f90e4ee273bbd12a27277;
+  
+  var _wrapPreviousElementSibling2 = _interopRequireDefault(_wrapPreviousElementSibling);
+  
   var _wrapPreviousSibling = __904b6ca435cee850b847541458004909;
   
   var _wrapPreviousSibling2 = _interopRequireDefault(_wrapPreviousSibling);
+  
+  var _wrapQuerySelector = __7dc6e96b3bafe82e43f739c8c3eaed23;
+  
+  var _wrapQuerySelector2 = _interopRequireDefault(_wrapQuerySelector);
+  
+  var _wrapQuerySelectorAll = __8b7d2a79c4c7639c9dc14bae0dd443d6;
+  
+  var _wrapQuerySelectorAll2 = _interopRequireDefault(_wrapQuerySelectorAll);
   
   var _wrapRemoveChild = __1608906990ce448dd1b582b1e451d224;
   
@@ -1290,51 +1611,97 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   
   var _wrapTextContent2 = _interopRequireDefault(_wrapTextContent);
   
-  var nodeProto = window.Node.prototype;
-  var nodeMembers = {
+  var Node = window.Node;
+  var NodeProto = Node.prototype;
+  var Element = window.Element;
+  var HTMLElement = window.HTMLElement;
+  
+  // Our custom wrapper elements.
+  var wrappers = {
     appendChild: _wrapAppendChild2['default'],
+    childElementCount: _wrapChildElementCount2['default'],
     childNodes: _wrapChildNodes2['default'],
     children: _wrapChildren2['default'],
+    closest: _wrapClosest2['default'],
+    compareDocumentPosition: _wrapCompareDocumentPosition2['default'],
+    contains: _wrapContains2['default'],
     firstChild: _wrapFirstChild2['default'],
+    firstElementChild: _wrapFirstElementChild2['default'],
+    lastElementChild: _wrapLastElementChild2['default'],
     lastChild: _wrapLastChild2['default'],
+    getElementsByClassName: _wrapGetElementsByClassName2['default'],
     getElementsByTagName: _wrapGetElementsByTagName2['default'],
+    hasChildNodes: _wrapHasChildNodes2['default'],
     innerHTML: _wrapInnerHTML2['default'],
     insertAdjacentHTML: _wrapInsertAdjacentHTML2['default'],
     insertBefore: _wrapInsertBefore2['default'],
     matches: _wrapMatches2['default'],
+    nextElementSibling: _wrapNextElementSibling2['default'],
     nextSibling: _wrapNextSibling2['default'],
     outerHTML: _wrapOuterHTML2['default'],
+    parentElement: _wrapParentElement2['default'],
     parentNode: _wrapParentNode2['default'],
+    previousElementSibling: _wrapPreviousElementSibling2['default'],
     previousSibling: _wrapPreviousSibling2['default'],
+    querySelector: _wrapQuerySelector2['default'],
+    querySelectorAll: _wrapQuerySelectorAll2['default'],
     removeChild: _wrapRemoveChild2['default'],
     replaceChild: _wrapReplaceChild2['default'],
     remove: _wrapRemove2['default'],
-    textContent: _wrapTextContent2['default']
+    textContent: _wrapTextContent2['default'],
+  
+    // Wrappers for prefixed members.
+    mozMatchesSelector: _wrapMatches2['default'],
+    msMatchesSelector: _wrapMatches2['default'],
+    webkitMatchesSelector: _wrapMatches2['default']
   };
   
-  // Define members that will proxy the real element's properties.
-  ['attributes', 'nodeName', 'nodeType', 'nodeValue', 'tagName'].forEach(function (property) {
-    nodeMembers[property] = {
-      get: function get() {
-        return this.__node[property];
-      }
-    };
-  });
-  
-  ['getAttribute', 'setAttribute'].forEach(function (method) {
-    nodeMembers[method] = {
-      value: function value() {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
+  // Builds a list of wrapper members for each type of node.
+  var members = ['Node', 'Element', 'HTMLElement'].reduce(function (prevProto, currProto) {
+    var proto = window[currProto].prototype;
+    prevProto[currProto] = Object.keys(proto).reduce(function (prevKey, currKey) {
+      prevKey[currKey] = (function () {
+        // Custom wrappers.
+        if (wrappers[currKey]) {
+          return wrappers[currKey];
         }
   
-        var node = this.__node;
-        return node[method].apply(node, args);
-      }
-    };
-  });
+        // Proxy methods.
+        if (typeof Object.getOwnPropertyDescriptor(proto, currKey).value === 'function') {
+          return {
+            value: function value() {
+              for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                args[_key] = arguments[_key];
+              }
   
-  Object.defineProperties(nodeProto, {
+              var node = this.__node;
+              return proto[currKey].apply(node, args);
+            }
+          };
+        }
+  
+        // Proxy properties.
+        return {
+          get: function get() {
+            return this.__node[currKey];
+          },
+  
+          set: function set(value) {
+            this.__node[currKey] = value;
+          }
+        };
+      })();
+  
+      return prevKey;
+    }, {});
+  
+    return prevProto;
+  }, {});
+  
+  // Define properties on nodes that allow us to switch between the node and
+  // wrapper object. No matter if we have a reference to the node, or a wrapper,
+  // accessing either one is the same and prevents the need for checking.
+  Object.defineProperties(NodeProto, {
     // Property that ensures the element is always returned. Allows `.__node` to
     // be called on a real node, or a wrapper without having to check.
     __node: {
@@ -1360,7 +1727,7 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
         if (!this.___wrapper) {
           (function () {
             var node = _this;
-            _this.___wrapper = _mixin2['default'](Object.defineProperties({}, {
+            var wrapper = _this.___wrapper = Object.defineProperties({}, {
               __node: {
                 get: function () {
                   return node;
@@ -1382,7 +1749,19 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
                 configurable: true,
                 enumerable: true
               }
-            }), nodeMembers);
+            });
+  
+            if (_this instanceof Node) {
+              _mixin2['default'](wrapper, members.Node);
+            }
+  
+            if (_this instanceof Element) {
+              _mixin2['default'](wrapper, members.Element);
+            }
+  
+            if (_this instanceof HTMLElement) {
+              _mixin2['default'](wrapper, members.HTMLElement);
+            }
           })();
         }
   
@@ -1392,21 +1771,23 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   });
   
   // Override DOM manipulators to ensure a real DOM element is passed in instead
-  // of a wrapper.
-  var oldAppendChild = nodeProto.appendChild;
-  nodeProto.appendChild = function (node) {
+  // of a wrapper. This covers elements not created through
+  // `document.createElement()` and elements not accessed / created through the
+  // wrapper.
+  var oldAppendChild = NodeProto.appendChild;
+  NodeProto.appendChild = function (node) {
     return oldAppendChild.call(this.__node, node.__node);
   };
-  var oldInsertBefore = nodeProto.insertBefore;
-  nodeProto.insertBefore = function (node, reference) {
+  var oldInsertBefore = NodeProto.insertBefore;
+  NodeProto.insertBefore = function (node, reference) {
     return oldInsertBefore.call(this.__node, node.__node, reference && reference.__node);
   };
-  var oldRemoveChild = nodeProto.removeChild;
-  nodeProto.removeChild = function (node) {
+  var oldRemoveChild = NodeProto.removeChild;
+  NodeProto.removeChild = function (node) {
     return oldRemoveChild.call(this.__node, node.__node);
   };
-  var oldReplaceChild = nodeProto.replaceChild;
-  nodeProto.replaceChild = function (node, reference) {
+  var oldReplaceChild = NodeProto.replaceChild;
+  NodeProto.replaceChild = function (node, reference) {
     return oldReplaceChild.call(this.__node, node.__node, reference.__node);
   };
   
