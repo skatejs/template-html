@@ -1,4 +1,5 @@
 import content from '../util/content';
+import matches from './matches';
 import query from '../util/query';
 
 function wrapped (that, node, referenceNode) {
@@ -50,7 +51,7 @@ function wrapped (that, node, referenceNode) {
 
       if (hasFoundReferenceNode) {
         let selector = contentNode.selector;
-        if (!selector || node.__wrapper.matches(selector)) {
+        if (!selector || matches.value.call(node, selector)) {
           betweenNode.parentNode.insertBefore(node, betweenNode);
           break mainLoop;
         }

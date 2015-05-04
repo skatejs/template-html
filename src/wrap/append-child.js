@@ -1,4 +1,5 @@
 import content from '../util/content';
+import matches from './matches';
 
 export default {
   value: function (node) {
@@ -24,7 +25,7 @@ export default {
       let contentNode = contentNodes[b];
       let selector = contentNode.selector;
 
-      if (!selector || node.__wrapper.matches(selector)) {
+      if (!selector || matches.value.call(node, selector)) {
         content.removeDefault(contentNode);
         contentNode.endNode.parentNode.insertBefore(node, contentNode.endNode);
         break;
