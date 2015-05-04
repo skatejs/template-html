@@ -1,10 +1,9 @@
 'use strict';
 
-import property from './property';
-
 export default function (proto, parent) {
   Object.keys(parent).forEach(function (key) {
-    property(proto, key, parent[key]);
+    parent[key].configurable = true;
+    Object.defineProperty(proto, key, parent[key]);
   });
   return proto;
 }

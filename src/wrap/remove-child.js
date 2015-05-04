@@ -2,7 +2,6 @@
 
 import content from '../util/content';
 import decide from '../util/decide';
-import readonly from '../util/readonly';
 
 export default {
   value: decide(
