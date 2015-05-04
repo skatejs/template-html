@@ -1,6 +1,6 @@
 'use strict';
 
 export default function (node) {
-  node.__skateTemplateHtmlWrapped = false;
+  node.__node.___wrapped = false;
   return node;
 }

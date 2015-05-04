@@ -1,42 +1,38 @@
 'use strict';
 
 import content from '../util/content';
-import decide from '../util/decide';
 
 export default {
-  value: decide(
-    function (data) {
-      var contentNodes = data.content;
-      var contentNodesLen = contentNodes.length;
-      var node = data.args[0];
-      var that = this;
+  value: function (node) {
+    if (!this.__wrapped) {
+      return this.__node.appendChild(node);
+    }
 
-      if (node instanceof window.DocumentFragment) {
-        let fragChildNodes = node.childNodes;
+    var contentNodes = content.get(this);
+    var contentNodesLen = contentNodes.length;
+    var that = this;
 
-        [].slice.call(fragChildNodes).forEach(function (node) {
-          that.appendChild(node);
-        });
+    if (node instanceof window.DocumentFragment) {
+      let fragChildNodes = node.childNodes;
 
-        return this;
-      }
-
-      for (let b = 0; b < contentNodesLen; b++) {
-        let contentNode = contentNodes[b];
-        let selector = contentNode.selector;
-
-        if (!selector || node.__wrapper.matches(selector)) {
-          content.removeDefault(contentNode);
-          contentNode.endNode.parentNode.insertBefore(node, contentNode.endNode);
-          break;
-        }
-      }
+      [].slice.call(fragChildNodes).forEach(function (node) {
+        that.appendChild(node);
+      });
 
       return this;
-    },
-
-    function (data) {
-      return data.node.appendChild(data.args[0]);
     }
-  )
+
+    for (let b = 0; b < contentNodesLen; b++) {
+      let contentNode = contentNodes[b];
+      let selector = contentNode.selector;
+
+      if (!selector || node.__wrapper.matches(selector)) {
+        content.removeDefault(contentNode);
+        contentNode.endNode.parentNode.insertBefore(node, contentNode.endNode);
+        break;
+      }
+    }
+
+    return this;
+  }
 };

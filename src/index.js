@@ -68,30 +68,52 @@ var nodeMembers = {
 ].forEach(function (method) {
   nodeMembers[method] = {
     value: function (...args) {
-      var el = this.__node;
-      return el[method].apply(el, args);
+      var node = this.__node;
+      return node[method].apply(node, args);
     }
   };
 });
 
-// Property that ensures the element is always returned. Allows `.__node` to
-// be called on a real node, or a wrapper without having to check.
-Object.defineProperty(nodeProto, '__node', {
-  get: function () {
-    return this;
-  }
-});
-
-// Define an accessor to get a wrapped version of an element.
-Object.defineProperty(nodeProto, '__wrapper', {
-  get: function () {
-    if (!this.___wrapper) {
-      this.___wrapper = mixin({}, nodeMembers);
-      this.___wrapper.__node = this;
-      this.___wrapper.__wrapper = this.___wrapper;
+Object.defineProperties(nodeProto, {
+  // Property that ensures the element is always returned. Allows `.__node` to
+  // be called on a real node, or a wrapper without having to check.
+  __node: {
+    get: function () {
+      return this;
     }
+  },
 
-    return this.___wrapper;
+  // Returns whether or not the element is wrapped. Also returns true for the
+  // wrapper.
+  __wrapped: {
+    get: function () {
+      return this.___wrapped;
+    }
+  },
+
+  // Always returns the wrapped version of the element and ensures that even
+  // if it is accessed on the wrapper that it still returns itself.
+  __wrapper: {
+    get: function () {
+      if (!this.___wrapper) {
+        let node = this;
+        this.___wrapper = mixin({
+          get __node () {
+            return node;
+          },
+
+          get __wrapped () {
+            return node.__wrapped;
+          },
+
+          get __wrapper () {
+            return this;
+          }
+        }, nodeMembers);
+      }
+
+      return this.___wrapper;
+    }
   }
 });
 

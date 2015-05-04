@@ -28,11 +28,11 @@ function parseCommentNode (node) {
 
 export default class {
   static get (element) {
-    return element.__node.__skateTemplateHtmlContent;
+    return element.__node.__content;
   }
 
   static set (element, content) {
-    element.__node.__skateTemplateHtmlContent = content;
+    element.__node.__content = content;
     return this;
   }
 

@@ -1,7 +1,6 @@
 'use strict';
 
 import content from '../util/content';
-import wrapped from '../api/wrapped';
 
 export default {
   get: function () {
@@ -9,8 +8,9 @@ export default {
   },
 
   set: function (textContent) {
-    if (!wrapped(this)) {
-      return this.__node.textContent = textContent;
+    if (!this.__wrapped) {
+      this.__node.textContent = textContent;
+      return;
     }
 
     var acceptsTextContent;
