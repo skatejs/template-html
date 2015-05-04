@@ -57,7 +57,7 @@ var nodeMembers = {
 ].forEach(function (property) {
   nodeMembers[property] = {
     get: function () {
-      return this.__element[property];
+      return this.__node[property];
     }
   };
 });
@@ -68,15 +68,15 @@ var nodeMembers = {
 ].forEach(function (method) {
   nodeMembers[method] = {
     value: function (...args) {
-      var el = this.__element;
+      var el = this.__node;
       return el[method].apply(el, args);
     }
   };
 });
 
-// Property that ensures the element is always returned. Allows `.__element` to
+// Property that ensures the element is always returned. Allows `.__node` to
 // be called on a real node, or a wrapper without having to check.
-Object.defineProperty(nodeProto, '__element', {
+Object.defineProperty(nodeProto, '__node', {
   get: function () {
     return this;
   }
@@ -87,7 +87,7 @@ Object.defineProperty(nodeProto, '__wrapper', {
   get: function () {
     if (!this.___wrapper) {
       this.___wrapper = mixin({}, nodeMembers);
-      this.___wrapper.__element = this;
+      this.___wrapper.__node = this;
       this.___wrapper.__wrapper = this.___wrapper;
     }
 
@@ -99,19 +99,19 @@ Object.defineProperty(nodeProto, '__wrapper', {
 // of a wrapper.
 var oldAppendChild = nodeProto.appendChild;
 nodeProto.appendChild = function (node) {
-  return oldAppendChild.call(this.__element, node.__element);
+  return oldAppendChild.call(this.__node, node.__node);
 };
 var oldInsertBefore = nodeProto.insertBefore;
 nodeProto.insertBefore = function (node, reference) {
-  return oldInsertBefore.call(this.__element, node.__element, reference && reference.__element);
+  return oldInsertBefore.call(this.__node, node.__node, reference && reference.__node);
 };
 var oldRemoveChild = nodeProto.removeChild;
 nodeProto.removeChild = function (node) {
-  return oldRemoveChild.call(this.__element, node.__element);
+  return oldRemoveChild.call(this.__node, node.__node);
 };
 var oldReplaceChild = nodeProto.replaceChild;
 nodeProto.replaceChild = function (node, reference) {
-  return oldReplaceChild.call(this.__element, node.__element, reference.__element);
+  return oldReplaceChild.call(this.__node, node.__node, reference.__node);
 };
 
 // Override `document.createElement()` to provide a wrapped node.

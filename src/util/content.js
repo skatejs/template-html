@@ -28,11 +28,11 @@ function parseCommentNode (node) {
 
 export default class {
   static get (element) {
-    return element.__element.__skateTemplateHtmlContent;
+    return element.__node.__skateTemplateHtmlContent;
   }
 
   static set (element, content) {
-    element.__element.__skateTemplateHtmlContent = content;
+    element.__node.__skateTemplateHtmlContent = content;
     return this;
   }
 
@@ -45,7 +45,7 @@ export default class {
   }
 
   static data (node) {
-    node = node.__element;
+    node = node.__node;
     var contentNodes = node.getElementsByTagName('content');
     var contentNodesLen = contentNodes && contentNodes.length;
     var contentData = [];
@@ -84,7 +84,7 @@ export default class {
   }
 
   static parse (node) {
-    node = node.__element;
+    node = node.__node;
     var a;
     var childNodes = node.childNodes;
     var childNodesLen = childNodes.length;
@@ -134,7 +134,7 @@ export default class {
     var nodesLen = nodes.length;
 
     for (let a = 0; a < nodesLen; a++) {
-      content.container.__element.insertBefore(nodes[a], content.endNode);
+      content.container.__node.insertBefore(nodes[a], content.endNode);
     }
 
     content.isDefault = true;
@@ -147,7 +147,7 @@ export default class {
 
     for (var a = 0; a < nodesLen; a++) {
       let node = nodes[a];
-      node.parentNode.__element.removeChild(node);
+      node.parentNode.__node.removeChild(node);
     }
 
     content.isDefault = false;

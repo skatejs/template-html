@@ -8,6 +8,6 @@ export default {
   },
 
   set: function (outerHTML) {
-    this.__element.outerHTML = outerHTML;
+    this.__node.outerHTML = outerHTML;
   }
 };

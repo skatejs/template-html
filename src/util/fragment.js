@@ -31,7 +31,7 @@ export default {
     };
 
     var tag = domString.match(/\s*<([^\s>]+)/);
-    var div = document.createElement(tag && specialMap[tag[1]] || 'div').__element;
+    var div = document.createElement(tag && specialMap[tag[1]] || 'div').__node;
 
     div.innerHTML = domString;
 

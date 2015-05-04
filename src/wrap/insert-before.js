@@ -9,8 +9,8 @@ export default {
     function (data) {
       var contentNodes = data.content;
       var contentNodesLen = contentNodes.length;
-      var node = data.args[0].__element;
-      var referenceNode = data.args[1].__element;
+      var node = data.args[0].__node;
+      var referenceNode = data.args[1].__node;
 
       // If no reference node is supplied, we append. This also means that we
       // don't need to add / remove any default content because either there

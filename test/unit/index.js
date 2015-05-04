@@ -17,33 +17,33 @@ describe('Templates', function () {
   it('should retain template element order', function () {
     tmp('<one></one><two></two><three></three>');
     expect(el.innerHTML).to.equal('');
-    expect(el.__element.innerHTML).to.equal('<one></one><two></two><three></three>');
+    expect(el.__node.innerHTML).to.equal('<one></one><two></two><three></three>');
   });
 
   it('should allow a function that is assumed that it will do the templating', function () {
     tmp('my template');
     expect(el.innerHTML).to.equal('');
-    expect(el.__element.innerHTML).to.equal('my template');
+    expect(el.__node.innerHTML).to.equal('my template');
   });
 
   it('should select all content from the inital html', function () {
     el.innerHTML = '<span>1</span><span>2</span>';
     tmp('<span><content></content></span>');
-    expect(el.__element.children[0].children[0].textContent).to.equal('1');
-    expect(el.__element.children[0].children[1].textContent).to.equal('2');
+    expect(el.__node.children[0].children[0].textContent).to.equal('1');
+    expect(el.__node.children[0].children[1].textContent).to.equal('2');
   });
 
   it('should select specific content from the inital html', function () {
     el.innerHTML = '<span>one</span><span>two</span>';
     tmp('<span><content select="span"></content></span>');
-    expect(el.__element.children[0].children[0].textContent).to.equal('one');
-    expect(el.__element.children[0].children[1].textContent).to.equal('two');
+    expect(el.__node.children[0].children[0].textContent).to.equal('one');
+    expect(el.__node.children[0].children[1].textContent).to.equal('two');
   });
 
   it('should only allow first children of the main element to be selected by the content element', function () {
     el.innerHTML = '<some><descendant></descendant></some>';
     tmp('<span><content select="some descendant"></content></span>');
-    expect(el.__element.children[0].children.length).to.equal(0);
+    expect(el.__node.children[0].children.length).to.equal(0);
   });
 
   it('should ignore non-element nodes', function () {
@@ -118,23 +118,23 @@ describe('Templates', function () {
 
     it('should insert the element at the correct index in the light DOM: 0', function () {
       el.insertBefore(document.createElement('three'), el.childNodes[0]);
-      expect(el.children[0]).to.equal(el.__element.children[0].children[0].__wrapper);
-      expect(el.children[1]).to.equal(el.__element.children[1].children[0].__wrapper);
-      expect(el.children[2]).to.equal(el.__element.children[1].children[1].__wrapper);
+      expect(el.children[0]).to.equal(el.__node.children[0].children[0].__wrapper);
+      expect(el.children[1]).to.equal(el.__node.children[1].children[0].__wrapper);
+      expect(el.children[2]).to.equal(el.__node.children[1].children[1].__wrapper);
     });
 
     it('should insert the element at the correct index in the light DOM: 1', function () {
       el.insertBefore(document.createElement('three'), el.childNodes[1]);
-      expect(el.children[0]).to.equal(el.__element.children[0].children[0].__wrapper);
-      expect(el.children[1]).to.equal(el.__element.children[1].children[0].__wrapper);
-      expect(el.children[2]).to.equal(el.__element.children[1].children[1].__wrapper);
+      expect(el.children[0]).to.equal(el.__node.children[0].children[0].__wrapper);
+      expect(el.children[1]).to.equal(el.__node.children[1].children[0].__wrapper);
+      expect(el.children[2]).to.equal(el.__node.children[1].children[1].__wrapper);
     });
 
     it('should insert the element at the correct index in the light DOM: 2', function () {
       el.insertBefore(document.createElement('three'), el.childNodes[1]);
-      expect(el.children[0]).to.equal(el.__element.children[0].children[0].__wrapper);
-      expect(el.children[1]).to.equal(el.__element.children[1].children[0].__wrapper);
-      expect(el.children[2]).to.equal(el.__element.children[1].children[1].__wrapper);
+      expect(el.children[0]).to.equal(el.__node.children[0].children[0].__wrapper);
+      expect(el.children[1]).to.equal(el.__node.children[1].children[0].__wrapper);
+      expect(el.children[2]).to.equal(el.__node.children[1].children[1].__wrapper);
     });
 
     it('should throw an error if inserting before a node that does not exist', function () {

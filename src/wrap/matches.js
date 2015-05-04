@@ -11,6 +11,6 @@ var matchesSelector = (
 
 export default {
   value: function (selector) {
-    return this.nodeType === 1 && matchesSelector.call(this.__element, selector);
+    return this.nodeType === 1 && matchesSelector.call(this.__node, selector);
   }
 };

@@ -7,7 +7,7 @@ import readonly from '../util/readonly';
 export default {
   value: decide(
     function (data) {
-      var childNode = data.args[0].__element;
+      var childNode = data.args[0].__node;
       var contentNodes = content.get(this);
       var contentNodesLen = contentNodes.length;
       var removed = false;
@@ -37,7 +37,7 @@ export default {
     },
 
     function (data) {
-      return this.__element.removeChild(data.args[0]);
+      return this.__node.removeChild(data.args[0]);
     }
   )
 };

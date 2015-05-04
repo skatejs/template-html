@@ -57,7 +57,7 @@ __d63a0d8055a792e36bedf197bb39b3a9 = (function () {
       };
   
       var tag = domString.match(/\s*<([^\s>]+)/);
-      var div = document.createElement(tag && specialMap[tag[1]] || 'div').__element;
+      var div = document.createElement(tag && specialMap[tag[1]] || 'div').__node;
   
       div.innerHTML = domString;
   
@@ -120,12 +120,12 @@ __19ae81b353686d785b09cf84bda3c843 = (function () {
     _createClass(_class, null, [{
       key: 'get',
       value: function get(element) {
-        return element.__element.__skateTemplateHtmlContent;
+        return element.__node.__skateTemplateHtmlContent;
       }
     }, {
       key: 'set',
       value: function set(element, content) {
-        element.__element.__skateTemplateHtmlContent = content;
+        element.__node.__skateTemplateHtmlContent = content;
         return this;
       }
     }, {
@@ -140,7 +140,7 @@ __19ae81b353686d785b09cf84bda3c843 = (function () {
     }, {
       key: 'data',
       value: function data(node) {
-        node = node.__element;
+        node = node.__node;
         var contentNodes = node.getElementsByTagName('content');
         var contentNodesLen = contentNodes && contentNodes.length;
         var contentData = [];
@@ -180,7 +180,7 @@ __19ae81b353686d785b09cf84bda3c843 = (function () {
     }, {
       key: 'parse',
       value: function parse(node) {
-        node = node.__element;
+        node = node.__node;
         var a;
         var childNodes = node.childNodes;
         var childNodesLen = childNodes.length;
@@ -231,7 +231,7 @@ __19ae81b353686d785b09cf84bda3c843 = (function () {
         var nodesLen = nodes.length;
   
         for (var a = 0; a < nodesLen; a++) {
-          content.container.__element.insertBefore(nodes[a], content.endNode);
+          content.container.__node.insertBefore(nodes[a], content.endNode);
         }
   
         content.isDefault = true;
@@ -245,7 +245,7 @@ __19ae81b353686d785b09cf84bda3c843 = (function () {
   
         for (var a = 0; a < nodesLen; a++) {
           var node = nodes[a];
-          node.parentNode.__element.removeChild(node);
+          node.parentNode.__node.removeChild(node);
         }
   
         content.isDefault = false;
@@ -381,7 +381,7 @@ __82323c269111294e19265f0584377c01 = (function () {
         args[_key] = arguments[_key];
       }
   
-      var node = this.__element;
+      var node = this.__node;
       var opts = {
         args: args,
         content: _content2['default'].get(node),
@@ -592,7 +592,7 @@ __0aba65d9734ef3ff590bbd491fea85f8 = (function () {
     value: true
   });exports['default'] = {
     value: function value(tagName) {
-      return this.__element.getElementsByTagName(tagName);
+      return this.__node.getElementsByTagName(tagName);
     }
   };
   module.exports = exports['default'];
@@ -748,8 +748,8 @@ __d25c541b4b60e1c1fac0d397e97f283a = (function () {
     value: _decide2['default'](function (data) {
       var contentNodes = data.content;
       var contentNodesLen = contentNodes.length;
-      var node = data.args[0].__element;
-      var referenceNode = data.args[1].__element;
+      var node = data.args[0].__node;
+      var referenceNode = data.args[1].__node;
   
       // If no reference node is supplied, we append. This also means that we
       // don't need to add / remove any default content because either there
@@ -872,7 +872,7 @@ __a44fc57d305290b7e86ae8fef3fb8e5c = (function () {
   
   exports['default'] = {
     value: function value(selector) {
-      return this.nodeType === 1 && matchesSelector.call(this.__element, selector);
+      return this.nodeType === 1 && matchesSelector.call(this.__node, selector);
     }
   };
   module.exports = exports['default'];
@@ -994,7 +994,7 @@ __ed5315016b175d6bb3df88a23c1618f7 = (function () {
     },
   
     set: function set(outerHTML) {
-      this.__element.outerHTML = outerHTML;
+      this.__node.outerHTML = outerHTML;
     }
   };
   module.exports = exports['default'];
@@ -1013,7 +1013,7 @@ __cfc5a9b45cdf9244c9692497bad0787e = (function () {
     value: true
   });exports['default'] = {
     get: function get() {
-      return this.__element.parentNode.__wrapper;
+      return this.__node.parentNode.__wrapper;
     }
   };
   module.exports = exports['default'];
@@ -1103,7 +1103,7 @@ __1608906990ce448dd1b582b1e451d224 = (function () {
   
   var _readonly2 = _interopRequireDefault(_readonly);exports['default'] = {
     value: _decide2['default'](function (data) {
-      var childNode = data.args[0].__element;
+      var childNode = data.args[0].__node;
       var contentNodes = _content2['default'].get(this);
       var contentNodesLen = contentNodes.length;
       var removed = false;
@@ -1131,7 +1131,7 @@ __1608906990ce448dd1b582b1e451d224 = (function () {
   
       return childNode;
     }, function (data) {
-      return this.__element.removeChild(data.args[0]);
+      return this.__node.removeChild(data.args[0]);
     })
   };
   module.exports = exports['default'];
@@ -1216,12 +1216,12 @@ __5d83602993d1bbdaad38b3476f1e8737 = (function () {
   
   var _wrapped2 = _interopRequireDefault(_wrapped);exports['default'] = {
     get: function get() {
-      return this.__element.textContent;
+      return this.__node.textContent;
     },
   
     set: function set(textContent) {
       if (!_wrapped2['default'](this)) {
-        return this.__element.textContent = textContent;
+        return this.__node.textContent = textContent;
       }
   
       var acceptsTextContent;
@@ -1390,7 +1390,7 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   ['attributes', 'nodeName', 'nodeType', 'nodeValue', 'tagName'].forEach(function (property) {
     nodeMembers[property] = {
       get: function get() {
-        return this.__element[property];
+        return this.__node[property];
       }
     };
   });
@@ -1402,15 +1402,15 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
           args[_key] = arguments[_key];
         }
   
-        var el = this.__element;
+        var el = this.__node;
         return el[method].apply(el, args);
       }
     };
   });
   
-  // Property that ensures the element is always returned. Allows `.__element` to
+  // Property that ensures the element is always returned. Allows `.__node` to
   // be called on a real node, or a wrapper without having to check.
-  Object.defineProperty(nodeProto, '__element', {
+  Object.defineProperty(nodeProto, '__node', {
     get: function get() {
       return this;
     }
@@ -1421,7 +1421,7 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
     get: function get() {
       if (!this.___wrapper) {
         this.___wrapper = _mixin2['default']({}, nodeMembers);
-        this.___wrapper.__element = this;
+        this.___wrapper.__node = this;
         this.___wrapper.__wrapper = this.___wrapper;
       }
   
@@ -1433,19 +1433,19 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   // of a wrapper.
   var oldAppendChild = nodeProto.appendChild;
   nodeProto.appendChild = function (node) {
-    return oldAppendChild.call(this.__element, node.__element);
+    return oldAppendChild.call(this.__node, node.__node);
   };
   var oldInsertBefore = nodeProto.insertBefore;
   nodeProto.insertBefore = function (node, reference) {
-    return oldInsertBefore.call(this.__element, node.__element, reference && reference.__element);
+    return oldInsertBefore.call(this.__node, node.__node, reference && reference.__node);
   };
   var oldRemoveChild = nodeProto.removeChild;
   nodeProto.removeChild = function (node) {
-    return oldRemoveChild.call(this.__element, node.__element);
+    return oldRemoveChild.call(this.__node, node.__node);
   };
   var oldReplaceChild = nodeProto.replaceChild;
   nodeProto.replaceChild = function (node, reference) {
-    return oldReplaceChild.call(this.__element, node.__element, reference.__element);
+    return oldReplaceChild.call(this.__node, node.__node, reference.__node);
   };
   
   // Override `document.createElement()` to provide a wrapped node.

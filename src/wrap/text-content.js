@@ -5,12 +5,12 @@ import wrapped from '../api/wrapped';
 
 export default {
   get: function () {
-    return this.__element.textContent;
+    return this.__node.textContent;
   },
 
   set: function (textContent) {
     if (!wrapped(this)) {
-      return this.__element.textContent = textContent;
+      return this.__node.textContent = textContent;
     }
 
     var acceptsTextContent;

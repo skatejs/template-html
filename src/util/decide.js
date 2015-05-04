@@ -5,7 +5,7 @@ import wrapped from '../api/wrapped';
 
 export default function (fnWrapped, fnUnwrapped) {
   return function (...args) {
-    var node = this.__element;
+    var node = this.__node;
     var opts = {
       args: args,
       content: content.get(node),
