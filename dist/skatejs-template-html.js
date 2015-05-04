@@ -1365,8 +1365,7 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   var _wrapTextContent = __5d83602993d1bbdaad38b3476f1e8737;
   
   var _wrapTextContent2 = _interopRequireDefault(_wrapTextContent);var nodeProto = window.Node.prototype;
-  var elementProto = window.Element.prototype;
-  var elementMembers = {
+  var nodeMembers = {
     appendChild: _wrapAppendChild2['default'],
     childNodes: _wrapChildNodes2['default'],
     children: _wrapChildren2['default'],
@@ -1389,7 +1388,7 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   
   // Define members that will proxy the real element's properties.
   ['attributes', 'nodeName', 'nodeType', 'nodeValue', 'tagName'].forEach(function (property) {
-    elementMembers[property] = {
+    nodeMembers[property] = {
       get: function get() {
         return this.__element[property];
       }
@@ -1397,7 +1396,7 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   });
   
   ['getAttribute', 'setAttribute'].forEach(function (method) {
-    elementMembers[method] = {
+    nodeMembers[method] = {
       value: function value() {
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
           args[_key] = arguments[_key];
@@ -1421,7 +1420,7 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   Object.defineProperty(nodeProto, '__wrapper', {
     get: function get() {
       if (!this.___wrapper) {
-        this.___wrapper = _mixin2['default']({}, elementMembers);
+        this.___wrapper = _mixin2['default']({}, nodeMembers);
         this.___wrapper.__element = this;
         this.___wrapper.__wrapper = this.___wrapper;
       }
@@ -1458,7 +1457,7 @@ __5dda2670a6c6ddd93070ee1716de3b91 = (function () {
   // Public API
   function skateTemplateHtml() {
     var templateStr = [].slice.call(arguments).join('');
-    var template = _fragment2['default'].fromString([].slice.call(arguments).join(''));
+    var template = _fragment2['default'].fromString(templateStr);
   
     return function (target) {
       target = typeof target === 'string' ? _fragment2['default'].fromString(target).childNodes[0] : target;

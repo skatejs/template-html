@@ -26,8 +26,7 @@ import wrapReplaceChild from './wrap/replace-child';
 import wrapTextContent from './wrap/text-content';
 
 var nodeProto = window.Node.prototype;
-var elementProto = window.Element.prototype;
-var elementMembers = {
+var nodeMembers = {
   appendChild: wrapAppendChild,
   childNodes: wrapChildNodes,
   children: wrapChildren,
@@ -56,7 +55,7 @@ var elementMembers = {
   'nodeValue',
   'tagName'
 ].forEach(function (property) {
-  elementMembers[property] = {
+  nodeMembers[property] = {
     get: function () {
       return this.__element[property];
     }
@@ -67,7 +66,7 @@ var elementMembers = {
   'getAttribute',
   'setAttribute'
 ].forEach(function (method) {
-  elementMembers[method] = {
+  nodeMembers[method] = {
     value: function (...args) {
       var el = this.__element;
       return el[method].apply(el, args);
@@ -87,7 +86,7 @@ Object.defineProperty(nodeProto, '__element', {
 Object.defineProperty(nodeProto, '__wrapper', {
   get: function () {
     if (!this.___wrapper) {
-      this.___wrapper = mixin({}, elementMembers);
+      this.___wrapper = mixin({}, nodeMembers);
       this.___wrapper.__element = this;
       this.___wrapper.__wrapper = this.___wrapper;
     }
@@ -124,7 +123,7 @@ document.createElement = function (name, parent) {
 // Public API
 function skateTemplateHtml () {
   var templateStr = [].slice.call(arguments).join('');
-  var template = fragment.fromString([].slice.call(arguments).join(''));
+  var template = fragment.fromString(templateStr);
 
   return function (target) {
     target = typeof target === 'string' ?
