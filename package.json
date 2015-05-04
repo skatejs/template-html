@@ -7,7 +7,7 @@
   "dependencies": {},
   "devDependencies": {
     "babel": "^5.1.13",
-    "chippy": "treshugart/chippy#0376d49b89eefa4c1fd214ff2485b6862e4ce474",
+    "chippy": "treshugart/chippy#ee58e36297eca1d57944c7279a4709b17bb370b0",
     "gulp": "^3.8.11",
     "gulp-auto-task": "0.0.1"
   },
