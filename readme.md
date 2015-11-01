@@ -1,7 +1,7 @@
 ***This repository is now deprecated because the Shadow DOM spec has changed fairly drastically and this API is not ideal for consumers of authors that use it. It exists for backward compatibility purposes only and will be deleted in the future.***
 
-Skate HTML Templates
-====================
+[DEPRECATED] Skate HTML Templates
+=================================
 
 Skate HTML templates is designed to be a very light implementation of how Shadow DOM uses `<content>` nodes and `select` attributes to project Light DOM. Just because it has Skate in the name doesn't mean you have to use it with Skate. It can be used completely on its own, too.
 
