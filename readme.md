@@ -1,4 +1,4 @@
-***This repository is now deprecated because the Shadow DOM spec has changed fairly drastically and this API is less than ideal for consumers. It exists for backward compatibility purposes only and will be deleted in the future.***
+***This repository is now deprecated because the Shadow DOM spec has changed fairly drastically and this API is not ideal for consumers of authors that use it. It exists for backward compatibility purposes only and will be deleted in the future.***
 
 Skate HTML Templates
 ====================
