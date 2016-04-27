@@ -447,6 +447,15 @@
         Object.defineProperty(wrapped, name, createProxyProperty(node, name));
       }
     }
+    
+    // Attaching some wrapped properties to the node that weren't previously there
+    for (var name in wrapper) {
+      var inNode = name in node && node.hasOwnProperty(name);
+
+      if (!inNode) {
+        Object.defineProperty(wrapped, name, wrapper[name]);
+      }
+    }
 
     return wrapped;
   }
